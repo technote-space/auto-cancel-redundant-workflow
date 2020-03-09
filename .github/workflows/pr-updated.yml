@@ -1,0 +1,90 @@
+on: pull_request
+
+name: Pull Request updated
+
+jobs:
+  triage:
+    name: Pull Request Labeler
+    runs-on: ubuntu-latest
+    if: "! startsWith(github.head_ref, 'release/')"
+    steps:
+      - uses: actions/labeler@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+  history:
+    name: Pull Request Body
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.user.id == github.event.pull_request.base.user.id
+    steps:
+      - uses: technote-space/pr-commit-body-action@v1
+        with:
+          EXCLUDE_MESSAGES: |
+            trigger workflow
+            update TOC
+            update package version
+            update wp version
+          TITLE: '## Changes'
+          LINK_ISSUE_KEYWORD: ${{ (startsWith(github.head_ref, 'release/') && 'closes') || '' }}
+          FILTER_PR: true
+
+  manageRelease:
+    name: Manage release
+    runs-on: ubuntu-latest
+    if: "github.event.pull_request.head.user.id == github.event.pull_request.base.user.id && startsWith(github.head_ref, 'release/') && ! startsWith(github.head_ref, 'release/v')"
+    steps:
+      - uses: technote-space/release-type-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          EXCLUDE_MESSAGES: |
+            update package version
+            update packages
+
+  checkVersion:
+    name: Check package version
+    runs-on: ubuntu-latest
+    if: "github.event.action == 'synchronize' && github.event.pull_request.head.user.id == github.event.pull_request.base.user.id && startsWith(github.head_ref, 'release/') && ! startsWith(github.head_ref, 'release/v')"
+    steps:
+      - name: Set running flag
+        run: echo "::set-env name=RUNNING::1"
+      - uses: actions/checkout@v2
+      - name: Set running flag
+        run: |
+          if [[ ! -f package.json ]] || [[ $(< package.json jq -r '.version == null') == 'true' ]]; then
+            echo "::set-env name=RUNNING::"
+          fi
+
+      - name: Get version
+        uses: technote-space/get-next-version-action@v1
+        with:
+          EXCLUDE_MESSAGES: |
+            update package version
+            update packages
+        if: env.RUNNING
+      - name: Check package version
+        uses: technote-space/package-version-check-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH_PREFIX: release/
+          NEXT_VERSION: ${{ env.NEXT_VERSION }}
+        if: env.NEXT_VERSION
+
+  checkPublish:
+    name: Check publish
+    runs-on: ubuntu-latest
+    if: "github.event.pull_request.head.user.id == github.event.pull_request.base.user.id && startsWith(github.head_ref, 'release/')"
+    steps:
+      - name: Set running flag
+        run: echo "::set-env name=RUNNING::1"
+      - name: Set running flag
+        run: |
+          if [ -z "$NPM_AUTH_TOKEN" ]; then
+            echo "::set-env name=RUNNING::"
+          fi
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+      - uses: actions/checkout@v2
+        if: env.RUNNING
+      - uses: technote-space/can-npm-publish-action@v1
+        if: env.RUNNING
