@@ -10,6 +10,7 @@ jobs:
     name: Sync workflows
     runs-on: ubuntu-latest
     steps:
+      - uses: technote-space/auto-cancel-redundant-job@gh-actions
       - name: Sync workflows
         uses: technote-space/create-pr-action@gh-actions
         with:
