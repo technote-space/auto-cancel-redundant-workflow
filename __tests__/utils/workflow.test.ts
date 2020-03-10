@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import { resolve } from 'path';
 import nock from 'nock';
+import { Logger } from '@technote-space/github-action-helper';
 import { testEnv, getOctokit, disableNetConnect, generateContext, getApiFixture } from '@technote-space/github-action-test-helper';
 import { getWorkflowId, getWorkflowRuns, cancelWorkflowRun } from '../../src/utils/workflow';
 
@@ -49,8 +50,9 @@ describe('getWorkflowRuns', () => {
 				fn();
 				return getApiFixture(fixturesDir, 'workflow-run.list');
 			});
+		Logger.resetForTesting();
 
-		const workflowRuns = await getWorkflowRuns(123, getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
+		const workflowRuns = await getWorkflowRuns(123, new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
 			payload: {
 				'pull_request': {
 					head: {

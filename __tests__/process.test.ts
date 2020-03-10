@@ -16,6 +16,10 @@ import { execute } from '../src/process';
 const rootDir     = resolve(__dirname, '..');
 const fixturesDir = resolve(__dirname, 'fixtures');
 
+beforeEach(() => {
+	Logger.resetForTesting();
+});
+
 describe('execute', () => {
 	disableNetConnect(nock);
 	testEnv(rootDir);
@@ -43,6 +47,8 @@ describe('execute', () => {
 		stdoutCalledWith(mockStdout, [
 			'> run id: 123',
 			'> workflow id: 30433642',
+			'target event: \x1b[32;40;0mpull_request\x1b[0m',
+			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
 			'> maybe canceled',
 		]);
 	});
@@ -70,6 +76,8 @@ describe('execute', () => {
 		stdoutCalledWith(mockStdout, [
 			'> run id: 30433643',
 			'> workflow id: 30433642',
+			'target event: \x1b[32;40;0mpull_request\x1b[0m',
+			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
 			'> newer job exists',
 		]);
 	});
@@ -101,6 +109,8 @@ describe('execute', () => {
 		stdoutCalledWith(mockStdout, [
 			'> run id: 30433644',
 			'> workflow id: 30433642',
+			'target event: \x1b[32;40;0mpull_request\x1b[0m',
+			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
 			'::group::Cancelling...',
 			'cancel: 30433642',
 			'cancel: 30433643',

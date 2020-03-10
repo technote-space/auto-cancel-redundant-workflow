@@ -11,7 +11,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
 	const workflowId = await getWorkflowId(octokit, context);
 	logger.info('workflow id: %d', workflowId);
 
-	const runs       = await getWorkflowRuns(workflowId, octokit, context);
+	const runs       = await getWorkflowRuns(workflowId, logger, octokit, context);
 	const currentRun = runs.find(run => run.id === runId);
 	if (!currentRun) {
 		logger.info('maybe canceled');
