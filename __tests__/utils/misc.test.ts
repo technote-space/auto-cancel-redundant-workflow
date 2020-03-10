@@ -1,58 +1,40 @@
 /* eslint-disable no-magic-numbers */
-import { isTargetEvent } from '@technote-space/filter-github-action';
-import { getContext, testEnv } from '@technote-space/github-action-test-helper';
-import { getPayload } from '../../src/utils/misc';
-import { TARGET_EVENTS } from '../../src/constant';
+import { resolve } from 'path';
+import { testEnv, getOctokit, generateContext } from '@technote-space/github-action-test-helper';
+import { getRunId, getTargetBranch } from '../../src/utils/misc';
 
-describe('isTargetEvent', () => {
-	testEnv();
+const rootDir = resolve(__dirname, '../..');
 
-	it('should return true 1', () => {
-		expect(isTargetEvent(TARGET_EVENTS, getContext({
-			payload: {
-				action: 'opened',
-			},
-			eventName: 'pull_request',
-		}))).toBe(true);
-	});
+describe('getRunId', () => {
+	testEnv(rootDir);
 
-	it('should return true 2', () => {
-		process.env.INPUT_IGNORE_CONTEXT_CHECK = 'true';
-		expect(isTargetEvent(TARGET_EVENTS, getContext({
-			payload: {
-				action: 'opened',
-			},
-			eventName: 'push',
-		}))).toBe(true);
-	});
+	it('get run id', () => {
+		process.env.GITHUB_RUN_ID = '123';
 
-	it('should return false 1', () => {
-		expect(isTargetEvent(TARGET_EVENTS, getContext({
-			payload: {
-				action: 'opened',
-			},
-			eventName: 'push',
-		}))).toBe(false);
-	});
-
-	it('should return false 2', () => {
-		expect(isTargetEvent(TARGET_EVENTS, getContext({
-			payload: {
-				action: 'closed',
-			},
-			eventName: 'pull_request',
-		}))).toBe(false);
+		expect(getRunId()).toBe(123);
 	});
 });
 
-describe('getPayload', () => {
-	it('should get payload', () => {
-		expect(getPayload(getContext({
+describe('getTargetBranch', () => {
+	testEnv(rootDir);
+
+	it('should get pr head ref', async() => {
+		expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world'}, {
 			payload: {
-				'test': 123,
+				'pull_request': {
+					head: {
+						ref: 'release/v1.2.3',
+					},
+				},
 			},
-		}))).toEqual({
-			'test': 123,
-		});
+		}))).toBe('release/v1.2.3');
+	});
+
+	it('should get branch', async() => {
+		expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world', ref: 'refs/heads/master'}))).toBe('master');
+	});
+
+	it('should return undefined', async() => {
+		expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world', ref: 'refs/tags/v1.2.3'}))).toBeUndefined();
 	});
 });

@@ -1,4 +1,3 @@
-# https://help.github.com/ja/articles/metadata-syntax-for-github-actions
 name: Auto Cancel Redundant Job
 
 description: GitHub Actions to automatically cancel redundant jobs.
@@ -10,18 +9,19 @@ inputs:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: true
-
-#outputs:
-#  result:
-#    description: action result
+  EXCLUDE_MERGED:
+    description: Whether to exclude merge push.
+    required: false
+    default: 'true'
+  MERGE_MESSAGE_PREFIX:
+    description: Prefix to detect merge message.
+    required: false
+    default: 'Merge pull request'
 
 branding:
-  # https://feathericons.com/
-  icon: 'package'
+  icon: 'x-circle'
   color: 'orange'
 
 runs:
   using: node12
   main: lib/main.js
-#  post: lib/post.js
-#  post-if: 'success()'
