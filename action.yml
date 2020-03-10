@@ -1,4 +1,3 @@
-# https://help.github.com/ja/articles/metadata-syntax-for-github-actions
 name: Auto Cancel Redundant Job
 
 description: GitHub Actions to automatically cancel redundant jobs.
@@ -11,17 +10,10 @@ inputs:
     default: ${{ github.token }}
     required: true
 
-#outputs:
-#  result:
-#    description: action result
-
 branding:
-  # https://feathericons.com/
-  icon: 'package'
+  icon: 'x-circle'
   color: 'orange'
 
 runs:
   using: node12
   main: lib/main.js
-#  post: lib/post.js
-#  post-if: 'success()'
