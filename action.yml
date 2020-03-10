@@ -1,7 +1,7 @@
 # https://help.github.com/ja/articles/metadata-syntax-for-github-actions
-name: GitHub Actions Template
+name: Auto Cancel Redundant Job
 
-description: Template for GitHub actions.
+description: GitHub Actions to automatically cancel redundant jobs.
 
 author: technote-space
 

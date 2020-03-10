@@ -1,11 +1,11 @@
-# GitHub Actions Template
+# Auto Cancel Redundant Job
 
-[![CI Status](https://github.com/technote-space/gh-actions-template/workflows/CI/badge.svg)](https://github.com/technote-space/gh-actions-template/actions)
-[![codecov](https://codecov.io/gh/technote-space/gh-actions-template/branch/master/graph/badge.svg)](https://codecov.io/gh/technote-space/gh-actions-template)
-[![CodeFactor](https://www.codefactor.io/repository/github/technote-space/gh-actions-template/badge)](https://www.codefactor.io/repository/github/technote-space/gh-actions-template)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/technote-space/gh-actions-template/blob/master/LICENSE)
+[![CI Status](https://github.com/technote-space/auto-cancel-redundant-job/workflows/CI/badge.svg)](https://github.com/technote-space/auto-cancel-redundant-job/actions)
+[![codecov](https://codecov.io/gh/technote-space/auto-cancel-redundant-job/branch/master/graph/badge.svg)](https://codecov.io/gh/technote-space/auto-cancel-redundant-job)
+[![CodeFactor](https://www.codefactor.io/repository/github/technote-space/auto-cancel-redundant-job/badge)](https://www.codefactor.io/repository/github/technote-space/auto-cancel-redundant-job)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/technote-space/auto-cancel-redundant-job/blob/master/LICENSE)
 
-Template for GitHub actions.
+GitHub Actions to automatically cancel redundant jobs.
 
 ## Table of Contents
 
@@ -147,7 +147,7 @@ https://api.slack.com/messaging/webhooks
    - Dry run: `yarn release -n`
    - Help: `yarn release -h`
 
-![cli](https://github.com/technote-space/gh-actions-template/raw/images/cli.gif)
+![cli](https://github.com/technote-space/auto-cancel-redundant-job/raw/images/cli.gif)
 
 Then, you can use your `GitHub Actions` like follows:
 

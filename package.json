@@ -1,7 +1,7 @@
 {
-  "name": "@technote-space/gh-actions-template",
+  "name": "@technote-space/auto-cancel-redundant-job",
   "version": "0.5.0",
-  "description": "Template for GitHub actions.",
+  "description": "GitHub Actions to automatically cancel redundant jobs.",
   "author": {
     "name": "Technote",
     "email": "technote.space@gmail.com",
@@ -12,13 +12,13 @@
     "github",
     "github actions"
   ],
-  "homepage": "https://github.com/technote-space/gh-actions-template",
+  "homepage": "https://github.com/technote-space/auto-cancel-redundant-job",
   "repository": {
     "type": "git",
-    "url": "https://github.com/technote-space/gh-actions-template.git"
+    "url": "https://github.com/technote-space/auto-cancel-redundant-job.git"
   },
   "bugs": {
-    "url": "https://github.com/technote-space/gh-actions-template/issues"
+    "url": "https://github.com/technote-space/auto-cancel-redundant-job/issues"
   },
   "files": [
     "lib",
@@ -52,7 +52,6 @@
     "access": "public"
   },
   "scripts": {
-    "setup": "if [[ $(uname -s) == 'Darwin' ]]; then BASH_ENV=~/.bashrc bash -O expand_aliases bin/setup.sh; else bash bin/setup.sh; fi && if [[ -f __DELETE__ ]]; then rm -rdf bin __DELETE__; fi",
     "build": "tsc",
     "test": "yarn lint && yarn cover",
     "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --cache",
