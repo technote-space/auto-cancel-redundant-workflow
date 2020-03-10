@@ -7,7 +7,7 @@
 
 *Read this in other languages: [English](README.md), [日本語](README.ja.md).*
 
-GitHub Actions to automatically cancel redundant jobs.
+冗長ビルドを自動キャンセルする `GitHub Actions` です。
 
 ## Table of Contents
 
@@ -38,7 +38,7 @@ GitHub Actions to automatically cancel redundant jobs.
 </details>
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Usage
+## 使用方法
 ```yaml
 on:
   repository_dispatch:
@@ -58,14 +58,14 @@ jobs:
 
 e.g. [update-dependencies.yml](.github/workflows/update-dependencies.yml)
 
-## Screenshots
-### Cancelling jobs
+## スクリーンショット
+### キャンセル中
 ![cancelling](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/cancelling.png)
 
-### Cancelled job
+### キャンセルされたジョブ
 ![cancelled](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/cancelled.png)
 
-### Result
+### 結果
 ![result](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/result.png)
 
 ## Author
