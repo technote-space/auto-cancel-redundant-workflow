@@ -16,23 +16,11 @@ GitHub Actions to automatically cancel redundant jobs.
 <details>
 <summary>Details</summary>
 
-- [Setup](#setup)
-  - [yarn](#yarn)
-  - [npm](#npm)
-- [Workflows](#workflows)
-  - [ci.yml](#ciyml)
-  - [add-version-tag.yml](#add-version-tagyml)
-  - [toc.yml](#tocyml)
-  - [issue-opened.yml](#issue-openedyml)
-  - [pr-opened.yml](#pr-openedyml)
-  - [pr-updated.yml](#pr-updatedyml)
-  - [project-card-moved.yml](#project-card-movedyml)
-  - [broken-link-check.yml](#broken-link-checkyml)
-  - [update-dependencies.yml](#update-dependenciesyml)
-  - [add-test-tag.yml](#add-test-tagyml)
-  - [Secrets](#secrets)
-- [Test release](#test-release)
-- [Helpers](#helpers)
+- [Usage](#usage)
+- [Screenshots](#screenshots)
+  - [Cancelling jobs](#cancelling-jobs)
+  - [Cancelled job](#cancelled-job)
+  - [Result](#result)
 - [Author](#author)
 
 </details>
