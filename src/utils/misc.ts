@@ -3,10 +3,10 @@ import { Context } from '@actions/github/lib/context';
 import { Octokit } from '@octokit/rest';
 import { ContextHelper, Utils } from '@technote-space/github-action-helper';
 
-export const getMergeMessagePrefix = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
-const isExcludeMerged              = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
-export const isExcludeContext      = (context: Context): boolean => ContextHelper.isPush(context) && isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message);
-export const isNotExcludeRun       = (run: Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
+const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
+const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
+export const isExcludeContext = (context: Context): boolean => ContextHelper.isPush(context) && isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message);
+export const isNotExcludeRun  = (run: Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
 
 export const getRunId = (): number => Number(process.env.GITHUB_RUN_ID);
 
