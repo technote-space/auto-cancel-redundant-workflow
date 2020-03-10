@@ -1,5 +1,6 @@
 import { Context } from '@actions/github/lib/context';
 import { Octokit } from '@octokit/rest';
+import { getTargetBranch } from './misc';
 
 export const getWorkflowId = async(octokit: Octokit, context: Context): Promise<number> | never => {
 	const run = await octokit.actions.getWorkflowRun({
@@ -21,6 +22,8 @@ export const getWorkflowRuns = async(workflowId: number, octokit: Octokit, conte
 		...context.repo,
 		'workflow_id': workflowId,
 		status: 'in_progress',
+		branch: await getTargetBranch(octokit, context),
+		event: context.eventName,
 	}),
 ));
 

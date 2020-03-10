@@ -27,10 +27,18 @@ describe('execute', () => {
 		nock('https://api.github.com')
 			.get('/repos/hello/world/actions/runs/123')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
-			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress&branch=release%2Fv1.2.3&event=pull_request')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'));
 
-		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
+			payload: {
+				'pull_request': {
+					head: {
+						ref: 'release/v1.2.3',
+					},
+				},
+			},
+		}));
 
 		stdoutCalledWith(mockStdout, [
 			'> run id: 123',
@@ -46,10 +54,18 @@ describe('execute', () => {
 		nock('https://api.github.com')
 			.get('/repos/hello/world/actions/runs/30433643')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
-			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress&branch=release%2Fv1.2.3&event=pull_request')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'));
 
-		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
+			payload: {
+				'pull_request': {
+					head: {
+						ref: 'release/v1.2.3',
+					},
+				},
+			},
+		}));
 
 		stdoutCalledWith(mockStdout, [
 			'> run id: 30433643',
@@ -65,14 +81,22 @@ describe('execute', () => {
 		nock('https://api.github.com')
 			.get('/repos/hello/world/actions/runs/30433644')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
-			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress&branch=release%2Fv1.2.3&event=pull_request')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'))
 			.post('/repos/hello/world/actions/runs/30433643/cancel')
 			.reply(202)
 			.post('/repos/hello/world/actions/runs/30433642/cancel')
 			.reply(202);
 
-		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
+			payload: {
+				'pull_request': {
+					head: {
+						ref: 'release/v1.2.3',
+					},
+				},
+			},
+		}));
 
 		stdoutCalledWith(mockStdout, [
 			'> run id: 30433644',
