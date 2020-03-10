@@ -4,13 +4,9 @@ import nock from 'nock';
 import {
 	testEnv,
 	spyOnStdout,
-	spyOnExec,
-	testChildProcess,
 	getOctokit,
 	generateContext,
-	execCalledWith,
 	stdoutCalledWith,
-	getLogStdout,
 	disableNetConnect,
 	getApiFixture,
 } from '@technote-space/github-action-test-helper';
@@ -23,38 +19,68 @@ const fixturesDir = resolve(__dirname, 'fixtures');
 describe('execute', () => {
 	disableNetConnect(nock);
 	testEnv(rootDir);
-	testChildProcess();
 
-	it('should execute', async() => {
-		const mockExec   = spyOnExec();
+	it('should do nothing 1', async() => {
+		process.env.GITHUB_RUN_ID = '123';
+
 		const mockStdout = spyOnStdout();
 		nock('https://api.github.com')
-			.get('/repos/hello/world/issues')
-			.reply(200, () => getApiFixture(fixturesDir, 'issues.get'));
+			.get('/repos/hello/world/actions/runs/123')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'));
 
 		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
 
-		execCalledWith(mockExec, ['ls -lat']);
 		stdoutCalledWith(mockStdout, [
-			'::group::Dump context',
-			getLogStdout({action: ''}),
-			'::endgroup::',
-			'::group::Command test',
-			'[command]ls -lat',
-			'  >> stdout',
-			'::endgroup::',
-			'::group::Color text',
-			'> green text: \x1b[31;40;1mgreen\x1b[0m',
-			'::warning::warning!',
-			'::error::error!!!',
-			'::debug::debug...',
-			'log log log',
-			'::endgroup::',
-			'::group::Get issues',
-			getLogStdout([
-				'Test issue1',
-				'Test issue2',
-			]),
+			'> run id: 123',
+			'> workflow id: 30433642',
+			'> maybe canceled',
+		]);
+	});
+
+	it('should do nothing 2', async() => {
+		process.env.GITHUB_RUN_ID = '30433643';
+
+		const mockStdout = spyOnStdout();
+		nock('https://api.github.com')
+			.get('/repos/hello/world/actions/runs/30433643')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'));
+
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+
+		stdoutCalledWith(mockStdout, [
+			'> run id: 30433643',
+			'> workflow id: 30433642',
+			'> newer job exists',
+		]);
+	});
+
+	it('should cancel jobs', async() => {
+		process.env.GITHUB_RUN_ID = '30433644';
+
+		const mockStdout = spyOnStdout();
+		nock('https://api.github.com')
+			.get('/repos/hello/world/actions/runs/30433644')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
+			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress')
+			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'))
+			.post('/repos/hello/world/actions/runs/30433643/cancel')
+			.reply(202)
+			.post('/repos/hello/world/actions/runs/30433642/cancel')
+			.reply(202);
+
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+
+		stdoutCalledWith(mockStdout, [
+			'> run id: 30433644',
+			'> workflow id: 30433642',
+			'::group::Cancelling...',
+			'cancel: 30433642',
+			'cancel: 30433643',
+			'> processed: 2',
 			'::endgroup::',
 		]);
 	});
