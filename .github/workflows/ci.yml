@@ -9,6 +9,7 @@ jobs:
     env:
       LINT: 1
     steps:
+      - uses: technote-space/auto-cancel-redundant-job@gh-actions
       - name: Set running flag
         run: echo "::set-env name=RUNNING::1"
       - uses: actions/checkout@v2
