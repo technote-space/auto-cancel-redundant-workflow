@@ -45,22 +45,14 @@ describe('getWorkflowRuns', () => {
 	it('should get workflow runs', async() => {
 		const fn = jest.fn();
 		nock('https://api.github.com')
-			.get('/repos/hello/world/actions/workflows/123/runs?status=in_progress&branch=release%2Fv1.2.3&event=pull_request')
+			.get('/repos/hello/world/actions/workflows/123/runs?status=in_progress&event=push')
 			.reply(200, () => {
 				fn();
 				return getApiFixture(fixturesDir, 'workflow-run.list');
 			});
 		Logger.resetForTesting();
 
-		const workflowRuns = await getWorkflowRuns(123, new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'pull_request'}, {
-			payload: {
-				'pull_request': {
-					head: {
-						ref: 'release/v1.2.3',
-					},
-				},
-			},
-		}));
+		const workflowRuns = await getWorkflowRuns(123, new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'push', ref: 'refs/tags/v1.2.3'}));
 
 		expect(workflowRuns).toHaveLength(3);
 		expect(fn).toBeCalledTimes(1);

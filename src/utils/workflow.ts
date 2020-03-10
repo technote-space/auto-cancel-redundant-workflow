@@ -1,7 +1,7 @@
 import { Context } from '@actions/github/lib/context';
 import { Octokit } from '@octokit/rest';
 import { Logger } from '@technote-space/github-action-helper';
-import { getTargetBranch } from './misc';
+import { getTargetBranch, isNotExcludeRun } from './misc';
 
 export const getWorkflowId = async(octokit: Octokit, context: Context): Promise<number> | never => {
 	const run = await octokit.actions.getWorkflowRun({
@@ -19,19 +19,23 @@ export const getWorkflowId = async(octokit: Octokit, context: Context): Promise<
 };
 
 export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit: Octokit, context: Context): Promise<Array<Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem>> => {
+	const options: Partial<{ repo; owner; 'workflow_id'; status; event; branch }> = {
+		...context.repo,
+		'workflow_id': workflowId,
+		status: 'in_progress',
+		event: context.eventName,
+	};
+
 	const branch = await getTargetBranch(octokit, context);
 	logger.log('target event: %s', logger.c(context.eventName, {color: 'green'}));
-	logger.log('target branch: %s', logger.c(branch, {color: 'green'}));
+	if (branch) {
+		logger.log('target branch: %s', logger.c(branch, {color: 'green'}));
+		options.branch = branch;
+	}
 
 	return (await octokit.paginate(
-		octokit.actions.listWorkflowRuns.endpoint.merge({
-			...context.repo,
-			'workflow_id': workflowId,
-			status: 'in_progress',
-			branch,
-			event: context.eventName,
-		}),
-	));
+		octokit.actions.listWorkflowRuns.endpoint.merge(options),
+	)).filter(isNotExcludeRun);
 };
 
 export const cancelWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<object> => octokit.actions.cancelWorkflowRun({

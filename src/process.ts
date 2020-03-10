@@ -1,20 +1,27 @@
 import { Context } from '@actions/github/lib/context';
 import { Octokit } from '@octokit/rest';
 import { Logger } from '@technote-space/github-action-helper';
-import { getRunId } from './utils/misc';
+import { getRunId, isExcludeContext } from './utils/misc';
 import { cancelWorkflowRun, getWorkflowId, getWorkflowRuns } from './utils/workflow';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
+	if (isExcludeContext(context)) {
+		logger.info('This is merge push.');
+		return;
+	}
+
 	const runId = getRunId();
 	logger.info('run id: %d', runId);
 
 	const workflowId = await getWorkflowId(octokit, context);
 	logger.info('workflow id: %d', workflowId);
 
-	const runs       = await getWorkflowRuns(workflowId, logger, octokit, context);
+	const runs = await getWorkflowRuns(workflowId, logger, octokit, context);
+	logger.log();
+
 	const currentRun = runs.find(run => run.id === runId);
 	if (!currentRun) {
-		logger.info('maybe canceled');
+		logger.info(logger.c('maybe canceled', {color: 'yellow'}));
 		return;
 	}
 
@@ -22,7 +29,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
 	const createdAt             = Date.parse(currentRun.created_at);
 
 	if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt)) {
-		logger.info('newer job exists');
+		logger.info(logger.c('newer job exists', {color: 'yellow'}));
 		return;
 	}
 
@@ -31,7 +38,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
 		logger.log('cancel: %d', run.id);
 		cancelWorkflowRun(run.id, octokit, context);
 	}));
-	logger.info('processed: %d', runsWithCreatedAtTime.length);
+	logger.info('total: %d', runsWithCreatedAtTime.length);
 
 	logger.endProcess();
 };

@@ -25,6 +25,22 @@ describe('execute', () => {
 	testEnv(rootDir);
 
 	it('should do nothing 1', async() => {
+		const mockStdout = spyOnStdout();
+
+		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'push'}, {
+			payload: {
+				'head_commit': {
+					message: 'Merge pull request #260 from test',
+				},
+			},
+		}));
+
+		stdoutCalledWith(mockStdout, [
+			'> This is merge push.',
+		]);
+	});
+
+	it('should do nothing 2', async() => {
 		process.env.GITHUB_RUN_ID = '123';
 
 		const mockStdout = spyOnStdout();
@@ -49,11 +65,12 @@ describe('execute', () => {
 			'> workflow id: 30433642',
 			'target event: \x1b[32;40;0mpull_request\x1b[0m',
 			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
-			'> maybe canceled',
+			'',
+			'> \x1b[33;40;0mmaybe canceled\x1b[0m',
 		]);
 	});
 
-	it('should do nothing 2', async() => {
+	it('should do nothing 3', async() => {
 		process.env.GITHUB_RUN_ID = '30433643';
 
 		const mockStdout = spyOnStdout();
@@ -78,16 +95,17 @@ describe('execute', () => {
 			'> workflow id: 30433642',
 			'target event: \x1b[32;40;0mpull_request\x1b[0m',
 			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
-			'> newer job exists',
+			'',
+			'> \x1b[33;40;0mnewer job exists\x1b[0m',
 		]);
 	});
 
 	it('should cancel jobs', async() => {
-		process.env.GITHUB_RUN_ID = '30433644';
+		process.env.GITHUB_RUN_ID = '30433645';
 
 		const mockStdout = spyOnStdout();
 		nock('https://api.github.com')
-			.get('/repos/hello/world/actions/runs/30433644')
+			.get('/repos/hello/world/actions/runs/30433645')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get'))
 			.get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress&branch=release%2Fv1.2.3&event=pull_request')
 			.reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'))
@@ -107,14 +125,15 @@ describe('execute', () => {
 		}));
 
 		stdoutCalledWith(mockStdout, [
-			'> run id: 30433644',
+			'> run id: 30433645',
 			'> workflow id: 30433642',
 			'target event: \x1b[32;40;0mpull_request\x1b[0m',
 			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
+			'',
 			'::group::Cancelling...',
 			'cancel: 30433642',
 			'cancel: 30433643',
-			'> processed: 2',
+			'> total: 2',
 			'::endgroup::',
 		]);
 	});
