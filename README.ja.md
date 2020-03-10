@@ -16,23 +16,11 @@
 <details>
 <summary>Details</summary>
 
-- [Setup](#setup)
-  - [yarn](#yarn)
-  - [npm](#npm)
-- [Workflows](#workflows)
-  - [ci.yml](#ciyml)
-  - [add-version-tag.yml](#add-version-tagyml)
-  - [toc.yml](#tocyml)
-  - [issue-opened.yml](#issue-openedyml)
-  - [pr-opened.yml](#pr-openedyml)
-  - [pr-updated.yml](#pr-updatedyml)
-  - [project-card-moved.yml](#project-card-movedyml)
-  - [broken-link-check.yml](#broken-link-checkyml)
-  - [update-dependencies.yml](#update-dependenciesyml)
-  - [add-test-tag.yml](#add-test-tagyml)
-  - [Secrets](#secrets)
-- [Test release](#test-release)
-- [Helpers](#helpers)
+- [使用方法](#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
+- [スクリーンショット](#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88)
+  - [キャンセル中](#%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E4%B8%AD)
+  - [キャンセルされたジョブ](#%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E3%81%95%E3%82%8C%E3%81%9F%E3%82%B8%E3%83%A7%E3%83%96)
+  - [結果](#%E7%B5%90%E6%9E%9C)
 - [Author](#author)
 
 </details>
