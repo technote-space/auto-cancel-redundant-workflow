@@ -43,6 +43,8 @@ describe('getWorkflowRuns', () => {
 	testEnv(rootDir);
 
 	it('should get workflow runs', async() => {
+		process.env.INPUT_EXCLUDE_MERGED = 'true';
+
 		const fn = jest.fn();
 		nock('https://api.github.com')
 			.get('/repos/hello/world/actions/workflows/123/runs?status=in_progress&event=push')
