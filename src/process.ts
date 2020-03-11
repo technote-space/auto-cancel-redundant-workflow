@@ -6,7 +6,7 @@ import { cancelWorkflowRun, getWorkflowId, getWorkflowRuns } from './utils/workf
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
 	if (isExcludeContext(context)) {
-		logger.info('This is merge push.');
+		logger.info('This is not target context.');
 		return;
 	}
 
