@@ -38,7 +38,7 @@ describe('execute', () => {
 		}));
 
 		stdoutCalledWith(mockStdout, [
-			'> This is merge push.',
+			'> This is not target context.',
 		]);
 	});
 
