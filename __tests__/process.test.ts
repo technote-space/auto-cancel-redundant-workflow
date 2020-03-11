@@ -25,6 +25,8 @@ describe('execute', () => {
 	testEnv(rootDir);
 
 	it('should do nothing 1', async() => {
+		process.env.INPUT_EXCLUDE_MERGED = 'true';
+
 		const mockStdout = spyOnStdout();
 
 		await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'push'}, {
@@ -101,7 +103,8 @@ describe('execute', () => {
 	});
 
 	it('should cancel jobs', async() => {
-		process.env.GITHUB_RUN_ID = '30433645';
+		process.env.INPUT_EXCLUDE_MERGED = 'true';
+		process.env.GITHUB_RUN_ID        = '30433645';
 
 		const mockStdout = spyOnStdout();
 		nock('https://api.github.com')

@@ -12,7 +12,7 @@ inputs:
   EXCLUDE_MERGED:
     description: Whether to exclude merge push.
     required: false
-    default: 'true'
+    default: 'false'
   MERGE_MESSAGE_PREFIX:
     description: Prefix to detect merge message.
     required: false
