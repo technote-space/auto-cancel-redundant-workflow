@@ -11,5 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: technote-space/auto-cancel-redundant-job@gh-actions
+        with:
+          EXCLUDE_MERGED: 'true'
       - name: Broken Link Check
         uses: technote-space/broken-link-checker-action@v1
