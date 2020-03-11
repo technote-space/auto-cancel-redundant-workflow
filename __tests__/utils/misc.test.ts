@@ -1,9 +1,47 @@
 /* eslint-disable no-magic-numbers */
 import { resolve } from 'path';
 import { testEnv, getOctokit, generateContext } from '@technote-space/github-action-test-helper';
-import { getRunId, getTargetBranch } from '../../src/utils/misc';
+import { isExcludeContext, getRunId, getTargetBranch } from '../../src/utils/misc';
 
 const rootDir = resolve(__dirname, '../..');
+
+describe('isExcludeContext', () => {
+	testEnv(rootDir);
+
+	it('should true 1', () => {
+		expect(isExcludeContext(generateContext({event: 'push', ref: 'refs/tags/v1.2.3'}))).toBe(true);
+	});
+
+	it('should true 2', () => {
+		process.env.INPUT_EXCLUDE_MERGED = 'true';
+		expect(isExcludeContext(generateContext({event: 'push', ref: 'refs/heads/feature/change'}, {
+			payload: {
+				'head_commit': {
+					message: 'Merge pull request #260 from test',
+				},
+			},
+		}))).toBe(true);
+	});
+
+	it('should false 1', () => {
+		process.env.INPUT_EXCLUDE_TAG_PUSH = 'false';
+		expect(isExcludeContext(generateContext({event: 'push', ref: 'refs/tags/v1.2.3'}))).toBe(false);
+	});
+
+	it('should false 2', () => {
+		expect(isExcludeContext(generateContext({event: 'push', ref: 'refs/heads/feature/change'}))).toBe(false);
+	});
+
+	it('should false 3', () => {
+		expect(isExcludeContext(generateContext({event: 'push', ref: 'refs/heads/feature/change'}, {
+			payload: {
+				'head_commit': {
+					message: 'Merge pull request #260 from test',
+				},
+			},
+		}))).toBe(false);
+	});
+});
 
 describe('getRunId', () => {
 	testEnv(rootDir);

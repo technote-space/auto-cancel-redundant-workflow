@@ -5,7 +5,12 @@ import { ContextHelper, Utils } from '@technote-space/github-action-helper';
 
 const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
 const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
-export const isExcludeContext = (context: Context): boolean => ContextHelper.isPush(context) && isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message);
+const isExcludeTagPush        = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_TAG_PUSH'));
+export const isExcludeContext = (context: Context): boolean =>
+	ContextHelper.isPush(context) && (
+		(isExcludeTagPush() && Utils.isTagRef(context)) ||
+		(isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
+	);
 export const isNotExcludeRun  = (run: Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
 
 export const getRunId = (): number => Number(process.env.GITHUB_RUN_ID);

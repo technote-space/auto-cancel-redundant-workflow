@@ -17,6 +17,10 @@ inputs:
     description: Prefix to detect merge message.
     required: false
     default: 'Merge pull request'
+  EXCLUDE_TAG_PUSH:
+    description: Whether to exclude tag push.
+    required: false
+    default: 'true'
 
 branding:
   icon: 'x-circle'
