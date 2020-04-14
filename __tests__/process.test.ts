@@ -68,7 +68,7 @@ describe('execute', () => {
 			'target event: \x1b[32;40;0mpull_request\x1b[0m',
 			'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
 			'',
-			'> \x1b[33;40;0mmaybe canceled\x1b[0m',
+			'> \x1b[33;40;0mcurrent run not found\x1b[0m',
 		]);
 	});
 
