@@ -21,7 +21,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
 
 	const currentRun = runs.find(run => run.id === runId);
 	if (!currentRun) {
-		logger.info(logger.c('maybe canceled', {color: 'yellow'}));
+		logger.info(logger.c('current run not found', {color: 'yellow'}));
 		return;
 	}
 
