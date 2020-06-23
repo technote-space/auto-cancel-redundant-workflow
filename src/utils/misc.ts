@@ -7,18 +7,18 @@ const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('ME
 const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
 const isExcludeTagPush        = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_TAG_PUSH'));
 export const isExcludeContext = (context: Context): boolean =>
-	ContextHelper.isPush(context) && (
-		(isExcludeTagPush() && Utils.isTagRef(context)) ||
-		(isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
-	);
+  ContextHelper.isPush(context) && (
+    (isExcludeTagPush() && Utils.isTagRef(context)) ||
+    (isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
+  );
 export const isNotExcludeRun  = (run: Octokit.ActionsListWorkflowRunsResponseWorkflowRunsItem): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
 
 export const getRunId = (): number => Number(process.env.GITHUB_RUN_ID);
 
 export const getTargetBranch = async(octokit: Octokit, context: Context): Promise<string | undefined> => {
-	if (context.payload.pull_request) {
-		return context.payload.pull_request.head.ref;
-	}
+  if (context.payload.pull_request) {
+    return context.payload.pull_request.head.ref;
+  }
 
-	return Utils.getBranch(context) || undefined;
+  return Utils.getBranch(context) || undefined;
 };
