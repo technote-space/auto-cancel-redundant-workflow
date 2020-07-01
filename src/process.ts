@@ -1,8 +1,8 @@
-import { Context } from '@actions/github/lib/context';
-import { Octokit } from '@technote-space/github-action-helper/dist/types';
-import { Logger } from '@technote-space/github-action-helper';
-import { getRunId, isExcludeContext } from './utils/misc';
-import { cancelWorkflowRun, getWorkflowId, getWorkflowRuns } from './utils/workflow';
+import {Context} from '@actions/github/lib/context';
+import {Octokit} from '@technote-space/github-action-helper/dist/types';
+import {Logger} from '@technote-space/github-action-helper';
+import {getRunId, isExcludeContext} from './utils/misc';
+import {cancelWorkflowRun, getWorkflowId, getWorkflowRuns} from './utils/workflow';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   if (isExcludeContext(context)) {

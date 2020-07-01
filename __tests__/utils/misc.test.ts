@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-import { resolve } from 'path';
-import { testEnv, getOctokit, generateContext } from '@technote-space/github-action-test-helper';
-import { isExcludeContext, getRunId, getTargetBranch } from '../../src/utils/misc';
+import {resolve} from 'path';
+import {testEnv, getOctokit, generateContext} from '@technote-space/github-action-test-helper';
+import {isExcludeContext, getRunId, getTargetBranch} from '../../src/utils/misc';
 
 const rootDir = resolve(__dirname, '../..');
 

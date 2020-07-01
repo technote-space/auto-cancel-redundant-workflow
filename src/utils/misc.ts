@@ -1,8 +1,8 @@
-import { getInput } from '@actions/core';
-import { Context } from '@actions/github/lib/context';
-import { Octokit } from '@technote-space/github-action-helper/dist/types';
-import { ContextHelper, Utils } from '@technote-space/github-action-helper';
-import { ActionsListWorkflowRunsResponseData } from '@octokit/types';
+import {getInput} from '@actions/core';
+import {Context} from '@actions/github/lib/context';
+import {Octokit} from '@technote-space/github-action-helper/dist/types';
+import {ContextHelper, Utils} from '@technote-space/github-action-helper';
+import {ActionsListWorkflowRunsResponseData} from '@octokit/types';
 
 const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
 const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));

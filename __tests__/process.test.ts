@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-import { resolve } from 'path';
+import {resolve} from 'path';
 import nock from 'nock';
 import {
   testEnv,
@@ -10,8 +10,8 @@ import {
   disableNetConnect,
   getApiFixture,
 } from '@technote-space/github-action-test-helper';
-import { Logger } from '@technote-space/github-action-helper';
-import { execute } from '../src/process';
+import {Logger} from '@technote-space/github-action-helper';
+import {execute} from '../src/process';
 
 const rootDir     = resolve(__dirname, '..');
 const fixturesDir = resolve(__dirname, 'fixtures');
