@@ -40,7 +40,9 @@ jobs:
     name: Broken Link Check
     runs-on: ubuntu-latest
     steps:
+        # use this GitHub Actions
       - uses: technote-space/auto-cancel-redundant-job@v1
+        # Run any steps
       - name: any steps
         run: echo test
 ```
