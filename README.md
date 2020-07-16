@@ -41,19 +41,21 @@ jobs:
     name: First Job
     runs-on: ubuntu-latest
     steps:
-        # use this GitHub Actions
+        # Use this GitHub Actions at least once in this workflow as soon as possible.
       - uses: technote-space/auto-cancel-redundant-job@v1
         # Run any steps
       - name: any steps
         run: echo test
       # ...
 
+  # Run any jobs
   secondJob:
     name: Second Job
     needs: firstJob
     runs-on: ubuntu-latest
     steps:
       - run: echo test
+
   # ...
 ```
 
