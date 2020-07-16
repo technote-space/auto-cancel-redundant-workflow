@@ -59,6 +59,11 @@ e.g.
 ### 結果
 ![result](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/result.png)
 
+## Outputs
+| name | description | e.g. |
+|:---:|:---|:---:|
+|ids|キャンセルされた Run ID|`1234,2345`|
+
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
 [Blog](https://technote.space)
