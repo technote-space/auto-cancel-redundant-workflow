@@ -1,12 +1,14 @@
 import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-helper';
+import {setOutput} from '@actions/core';
 import {getRunId, isExcludeContext} from './utils/misc';
 import {cancelWorkflowRun, getWorkflowId, getWorkflowRuns} from './utils/workflow';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   if (isExcludeContext(context)) {
     logger.info('This is not target context.');
+    setOutput('ids', '');
     return;
   }
 
@@ -22,6 +24,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   const currentRun = runs.find(run => run.id === runId);
   if (!currentRun) {
     logger.info(logger.c('current run not found', {color: 'yellow'}));
+    setOutput('ids', '');
     return;
   }
 
@@ -30,15 +33,17 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
 
   if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt)) {
     logger.info(logger.c('newer job exists', {color: 'yellow'}));
+    setOutput('ids', '');
     return;
   }
 
   logger.startProcess('Cancelling...');
   await Promise.all(runsWithCreatedAtTime.map(run => {
     logger.log('cancel: %d', run.id);
-    cancelWorkflowRun(run.id, octokit, context);
+    return cancelWorkflowRun(run.id, octokit, context);
   }));
   logger.info('total: %d', runsWithCreatedAtTime.length);
+  setOutput('ids', runsWithCreatedAtTime.map(run => run.id).join(','));
 
   logger.endProcess();
 };

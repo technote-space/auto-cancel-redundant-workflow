@@ -21,6 +21,7 @@ GitHub Actions to automatically cancel redundant jobs.
   - [Cancelling jobs](#cancelling-jobs)
   - [Cancelled job](#cancelled-job)
   - [Result](#result)
+- [Outputs](#outputs)
 - [Author](#author)
 
 </details>
@@ -40,14 +41,16 @@ jobs:
     name: Broken Link Check
     runs-on: ubuntu-latest
     steps:
+        # use this GitHub Actions
       - uses: technote-space/auto-cancel-redundant-job@v1
-      - name: Broken Link Check
-        uses: technote-space/broken-link-checker-action@v1
+        # Run any steps
+      - name: any steps
+        run: echo test
 ```
 
 e.g. 
-- [ci.yml](.github/workflows/ci.yml)
-- [broken-link-check.yml](.github/workflows/broken-link-check.yml)
+- [ci.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/ci.yml)
+- [update-dependencies.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/update-dependencies.yml)
 
 ## Screenshots
 ### Cancelling jobs
@@ -58,6 +61,11 @@ e.g.
 
 ### Result
 ![result](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/result.png)
+
+## Outputs
+| name | description | e.g. |
+|:---:|:---|:---:|
+|ids|The results of cancelled run ids.|`1234,2345`|
 
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
