@@ -21,6 +21,7 @@
   - [キャンセル中](#%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E4%B8%AD)
   - [キャンセルされたジョブ](#%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB%E3%81%95%E3%82%8C%E3%81%9F%E3%82%B8%E3%83%A7%E3%83%96)
   - [結果](#%E7%B5%90%E6%9E%9C)
+- [Outputs](#outputs)
 - [Author](#author)
 
 </details>
@@ -40,14 +41,16 @@ jobs:
     name: Broken Link Check
     runs-on: ubuntu-latest
     steps:
+        # use this GitHub Actions
       - uses: technote-space/auto-cancel-redundant-job@v1
-      - name: Broken Link Check
-        uses: technote-space/broken-link-checker-action@v1
+        # Run any steps
+      - name: any steps
+        run: echo test
 ```
 
 e.g. 
-- [ci.yml](.github/workflows/ci.yml)
-- [broken-link-check.yml](.github/workflows/broken-link-check.yml)
+- [ci.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/ci.yml)
+- [update-dependencies.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/update-dependencies.yml)
 
 ## スクリーンショット
 ### キャンセル中
@@ -58,6 +61,11 @@ e.g.
 
 ### 結果
 ![result](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-job/images/result.png)
+
+## Outputs
+| name | description | e.g. |
+|:---:|:---|:---:|
+|ids|キャンセルされた Run ID|`1234,2345`|
 
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
