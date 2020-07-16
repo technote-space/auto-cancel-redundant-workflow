@@ -36,7 +36,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.startProcess('Cancelling...');
   await Promise.all(runsWithCreatedAtTime.map(run => {
     logger.log('cancel: %d', run.id);
-    cancelWorkflowRun(run.id, octokit, context);
+    return cancelWorkflowRun(run.id, octokit, context);
   }));
   logger.info('total: %d', runsWithCreatedAtTime.length);
 
