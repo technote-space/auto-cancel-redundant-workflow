@@ -39,6 +39,7 @@ describe('execute', () => {
 
     stdoutCalledWith(mockStdout, [
       '> This is not target context.',
+      '::set-output name=ids::',
     ]);
   });
 
@@ -69,6 +70,7 @@ describe('execute', () => {
       'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
       '',
       '> \x1b[33;40;0mcurrent run not found\x1b[0m',
+      '::set-output name=ids::',
     ]);
   });
 
@@ -99,6 +101,7 @@ describe('execute', () => {
       'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
       '',
       '> \x1b[33;40;0mnewer job exists\x1b[0m',
+      '::set-output name=ids::',
     ]);
   });
 
@@ -137,6 +140,7 @@ describe('execute', () => {
       'cancel: 30433642',
       'cancel: 30433643',
       '> total: 2',
+      '::set-output name=ids::30433642,30433643',
       '::endgroup::',
     ]);
   });
