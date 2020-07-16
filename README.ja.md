@@ -35,10 +35,10 @@ on:
   # push:
   # ...
 
-name: Broken Link Check
+name: Example
 jobs:
-  check:
-    name: Broken Link Check
+  firstJob:
+    name: First Job
     runs-on: ubuntu-latest
     steps:
         # use this GitHub Actions
@@ -46,6 +46,15 @@ jobs:
         # Run any steps
       - name: any steps
         run: echo test
+      # ...
+
+  secondJob:
+    name: Second Job
+    needs: firstJob
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo test
+  # ...
 ```
 
 e.g. 
