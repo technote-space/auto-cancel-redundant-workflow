@@ -21,6 +21,7 @@ GitHub Actions to automatically cancel redundant jobs.
   - [Cancelling jobs](#cancelling-jobs)
   - [Cancelled job](#cancelled-job)
   - [Result](#result)
+- [Outputs](#outputs)
 - [Author](#author)
 
 </details>
