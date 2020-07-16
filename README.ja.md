@@ -41,13 +41,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: technote-space/auto-cancel-redundant-job@v1
-      - name: Broken Link Check
-        uses: technote-space/broken-link-checker-action@v1
+      - name: any steps
+        run: echo test
 ```
 
 e.g. 
-- [ci.yml](.github/workflows/ci.yml)
-- [broken-link-check.yml](.github/workflows/broken-link-check.yml)
+- [ci.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/ci.yml)
+- [update-dependencies.yml](https://github.com/technote-space/toc-generator/blob/master/.github/workflows/update-dependencies.yml)
 
 ## スクリーンショット
 ### キャンセル中
