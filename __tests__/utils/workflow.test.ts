@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import {resolve} from 'path';
 import nock from 'nock';
-import {Logger} from '@technote-space/github-action-helper';
+import {Logger} from '@technote-space/github-action-log-helper';
 import {testEnv, getOctokit, disableNetConnect, generateContext, getApiFixture} from '@technote-space/github-action-test-helper';
 import {getWorkflowId, getWorkflowRuns, cancelWorkflowRun} from '../../src/utils/workflow';
 
