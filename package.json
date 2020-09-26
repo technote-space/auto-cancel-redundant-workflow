@@ -1,29 +1,38 @@
 {
   "name": "@technote-space/auto-cancel-redundant-job",
-  "version": "1.4.6",
+  "version": "1.5.0",
   "description": "GitHub Actions to automatically cancel redundant jobs.",
-  "author": {
-    "name": "Technote",
-    "email": "technote.space@gmail.com",
-    "url": "https://technote.space"
-  },
-  "license": "MIT",
   "keywords": [
     "github",
     "github actions"
   ],
   "homepage": "https://github.com/technote-space/auto-cancel-redundant-job",
+  "bugs": {
+    "url": "https://github.com/technote-space/auto-cancel-redundant-job/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/technote-space/auto-cancel-redundant-job.git"
   },
-  "bugs": {
-    "url": "https://github.com/technote-space/auto-cancel-redundant-job/issues"
+  "license": "MIT",
+  "author": {
+    "name": "Technote",
+    "email": "technote.space@gmail.com",
+    "url": "https://technote.space"
   },
   "files": [
     "lib",
     "action.yml"
   ],
+  "scripts": {
+    "build": "tsc",
+    "cover": "jest --coverage",
+    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --cache",
+    "lint:fix": "eslint --fix 'src/**/*.ts' '__tests__/**/*.ts'",
+    "release": "yarn release-ga --test",
+    "test": "yarn lint && yarn cover",
+    "update": "npx npm-check-updates -u && yarn install && yarn upgrade && yarn audit"
+  },
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
@@ -53,14 +62,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "scripts": {
-    "build": "tsc",
-    "test": "yarn lint && yarn cover",
-    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' --cache",
-    "lint:fix": "eslint --fix 'src/**/*.ts' '__tests__/**/*.ts'",
-    "cover": "jest --coverage",
-    "update": "npx npm-check-updates -u && yarn install && yarn upgrade && yarn audit",
-    "release": "yarn release-ga --test"
   }
 }
