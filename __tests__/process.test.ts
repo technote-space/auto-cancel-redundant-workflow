@@ -10,7 +10,7 @@ import {
   disableNetConnect,
   getApiFixture,
 } from '@technote-space/github-action-test-helper';
-import {Logger} from '@technote-space/github-action-helper';
+import {Logger} from '@technote-space/github-action-log-helper';
 import {execute} from '../src/process';
 
 const rootDir     = resolve(__dirname, '..');
