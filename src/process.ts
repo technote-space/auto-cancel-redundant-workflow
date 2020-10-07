@@ -31,8 +31,9 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.log();
   const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(run.created_at)}));
   const createdAt             = Date.parse(getWorkflowRunCreatedAt(run));
+  const runNumber             = run.run_number;
 
-  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt)) {
+  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt || (run.createdAt === createdAt && run.run_number > runNumber))) {
     logger.info(logger.c('newer job exists', {color: 'yellow'}));
     setOutput('ids', '');
     return;
