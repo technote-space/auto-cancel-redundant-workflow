@@ -3,7 +3,7 @@ import {resolve} from 'path';
 import nock from 'nock';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {testEnv, getOctokit, disableNetConnect, generateContext, getApiFixture} from '@technote-space/github-action-test-helper';
-import {getWorkflowRun, getWorkflowId, getWorkflowRunCreatedAt, getWorkflowRuns, cancelWorkflowRun} from '../../src/utils/workflow';
+import {getWorkflowRun, getWorkflowId, getWorkflowRunCreatedAt, getWorkflowRunNumber, getWorkflowRuns, cancelWorkflowRun} from '../../src/utils/workflow';
 
 const rootDir     = resolve(__dirname, '../..');
 const fixturesDir = resolve(__dirname, '..', 'fixtures');
@@ -25,10 +25,9 @@ describe('getWorkflowRun, getWorkflowId, getWorkflowRunCreatedAt', () => {
 
     const run = await getWorkflowRun(getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
     expect(fn).toBeCalledTimes(1);
-    expect(run).toHaveProperty('id');
-    expect(run).toHaveProperty('created_at');
     expect(getWorkflowId(run)).toBe(30433642);
     expect(getWorkflowRunCreatedAt(run)).toBe('2020-01-22T19:33:08Z');
+    expect(getWorkflowRunNumber(run)).toBe(562);
   });
 
   it('should throw error', async() => {
@@ -54,7 +53,7 @@ describe('getWorkflowRuns', () => {
 
     const fn = jest.fn();
     nock('https://api.github.com')
-      .get('/repos/hello/world/actions/workflows/123/runs?status=in_progress&event=push')
+      .get('/repos/hello/world/actions/workflows/123/runs?status=in_progress')
       .reply(200, () => {
         fn();
         return getApiFixture(fixturesDir, 'workflow-run.list');

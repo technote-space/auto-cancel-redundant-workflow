@@ -25,6 +25,8 @@ export const getWorkflowId = (run: ActionsGetWorkflowRunResponseData): number | 
 
 export const getWorkflowRunCreatedAt = (run: ActionsGetWorkflowRunResponseData): string => run.created_at;
 
+export const getWorkflowRunNumber = (run: ActionsGetWorkflowRunResponseData): number => run.run_number;
+
 export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit: Octokit, context: Context): Promise<ActionsListWorkflowRunsResponseData['workflow_runs']> => {
   const options: {
     owner: string;
@@ -37,7 +39,8 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
     ...context.repo,
     'workflow_id': workflowId,
     status: 'in_progress',
-    event: context.eventName,
+    // not work properly sometimes so filter by program
+    // event: context.eventName,
   };
 
   const branch = await getTargetBranch(octokit, context);
@@ -54,7 +57,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options,
-  )).map(run => run as ActionsListWorkflowRunsResponseData['workflow_runs'][number]).filter(isNotExcludeRun);
+  )).map(run => run as ActionsListWorkflowRunsResponseData['workflow_runs'][number]).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
