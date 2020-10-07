@@ -57,7 +57,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options,
-  )).map(run => run as ActionsListWorkflowRunsResponseData['workflow_runs'][number]).filter(isNotExcludeRun).filter(run => run.event === context.eventName);
+  )).map(run => run as ActionsListWorkflowRunsResponseData['workflow_runs'][number]).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
