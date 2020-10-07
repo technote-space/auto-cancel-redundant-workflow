@@ -2,7 +2,8 @@ import {getInput} from '@actions/core';
 import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {ContextHelper, Utils} from '@technote-space/github-action-helper';
-import {ActionsListWorkflowRunsResponseData} from '@octokit/types';
+import {ActionsListWorkflowRunsResponseData, ActionsGetWorkflowRunResponseData} from '@octokit/types';
+import {SHOW_PROPERTIES} from '../constant';
 
 const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
 const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
@@ -23,3 +24,6 @@ export const getTargetBranch = async(octokit: Octokit, context: Context): Promis
 
   return Utils.getBranch(context) || undefined;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getFilteredRun = (run: ActionsGetWorkflowRunResponseData): { [key: string]: any } => Object.assign({}, ...SHOW_PROPERTIES.map(key => ({[key]: run[key]})));

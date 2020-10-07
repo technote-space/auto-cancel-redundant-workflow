@@ -2,8 +2,8 @@ import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {setOutput} from '@actions/core';
-import {getRunId, isExcludeContext} from './utils/misc';
-import {cancelWorkflowRun, getWorkflowId, getWorkflowRuns} from './utils/workflow';
+import {getRunId, isExcludeContext, getFilteredRun} from './utils/misc';
+import {cancelWorkflowRun, getWorkflowId, getWorkflowRun, getWorkflowRunCreatedAt, getWorkflowRuns} from './utils/workflow';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   if (isExcludeContext(context)) {
@@ -15,23 +15,25 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   const runId = getRunId();
   logger.info('run id: %d', runId);
 
-  const workflowId = await getWorkflowId(octokit, context);
+  const run = await getWorkflowRun(octokit, context);
+  logger.startProcess('run:');
+  console.log(getFilteredRun(run));
+  logger.endProcess();
+
+  const workflowId = await getWorkflowId(run);
   logger.info('workflow id: %d', workflowId);
 
   const runs = await getWorkflowRuns(workflowId, logger, octokit, context);
+  logger.startProcess('workflow runs:');
+  console.log(runs.map(run => getFilteredRun(run)));
+  logger.endProcess();
+
   logger.log();
-
-  const currentRun = runs.find(run => run.id === runId);
-  if (!currentRun) {
-    logger.info(logger.c('current run not found', {color: 'yellow'}));
-    setOutput('ids', '');
-    return;
-  }
-
   const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(run.created_at)}));
-  const createdAt             = Date.parse(currentRun.created_at);
+  const createdAt             = Date.parse(getWorkflowRunCreatedAt(run));
+  const runNumber             = run.run_number;
 
-  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt)) {
+  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt || (run.createdAt === createdAt && run.run_number > runNumber))) {
     logger.info(logger.c('newer job exists', {color: 'yellow'}));
     setOutput('ids', '');
     return;

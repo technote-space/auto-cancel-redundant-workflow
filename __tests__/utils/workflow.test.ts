@@ -3,16 +3,16 @@ import {resolve} from 'path';
 import nock from 'nock';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {testEnv, getOctokit, disableNetConnect, generateContext, getApiFixture} from '@technote-space/github-action-test-helper';
-import {getWorkflowId, getWorkflowRuns, cancelWorkflowRun} from '../../src/utils/workflow';
+import {getWorkflowRun, getWorkflowId, getWorkflowRunCreatedAt, getWorkflowRunNumber, getWorkflowRuns, cancelWorkflowRun} from '../../src/utils/workflow';
 
 const rootDir     = resolve(__dirname, '../..');
 const fixturesDir = resolve(__dirname, '..', 'fixtures');
 
-describe('getWorkflowId', () => {
+describe('getWorkflowRun, getWorkflowId, getWorkflowRunCreatedAt', () => {
   disableNetConnect(nock);
   testEnv(rootDir);
 
-  it('should get workflow id', async() => {
+  it('should get workflow run', async() => {
     process.env.GITHUB_RUN_ID = '123';
     const fn                  = jest.fn();
 
@@ -20,11 +20,14 @@ describe('getWorkflowId', () => {
       .get('/repos/hello/world/actions/runs/123')
       .reply(200, () => {
         fn();
-        return getApiFixture(fixturesDir, 'workflow-run.get');
+        return getApiFixture(fixturesDir, 'workflow-run.get1');
       });
 
-    expect(await getWorkflowId(getOctokit(), generateContext({owner: 'hello', repo: 'world'}))).toBe(30433642);
+    const run = await getWorkflowRun(getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
     expect(fn).toBeCalledTimes(1);
+    expect(getWorkflowId(run)).toBe(30433642);
+    expect(getWorkflowRunCreatedAt(run)).toBe('2020-01-22T19:33:08Z');
+    expect(getWorkflowRunNumber(run)).toBe(562);
   });
 
   it('should throw error', async() => {
@@ -34,7 +37,10 @@ describe('getWorkflowId', () => {
       .get('/repos/hello/world/actions/runs/123')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get.error'));
 
-    await expect(getWorkflowId(getOctokit(), generateContext({owner: 'hello', repo: 'world'}))).rejects.toThrow('Invalid workflow run');
+    const run = await getWorkflowRun(getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
+    expect(() => {
+      getWorkflowId(run);
+    }).toThrow();
   });
 });
 
@@ -47,7 +53,7 @@ describe('getWorkflowRuns', () => {
 
     const fn = jest.fn();
     nock('https://api.github.com')
-      .get('/repos/hello/world/actions/workflows/123/runs?status=in_progress&event=push')
+      .get('/repos/hello/world/actions/workflows/123/runs?status=in_progress')
       .reply(200, () => {
         fn();
         return getApiFixture(fixturesDir, 'workflow-run.list');
