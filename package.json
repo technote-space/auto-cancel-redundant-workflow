@@ -40,7 +40,7 @@
     "@octokit/plugin-rest-endpoint-methods": "^4.2.0",
     "@octokit/types": "^5.5.0",
     "@technote-space/github-action-helper": "^4.0.3",
-    "@technote-space/github-action-log-helper": "^0.1.2"
+    "@technote-space/github-action-log-helper": "^0.1.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
