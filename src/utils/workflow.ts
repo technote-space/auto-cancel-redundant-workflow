@@ -3,23 +3,27 @@ import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {PaginateInterface} from '@octokit/plugin-paginate-rest';
 import {RestEndpointMethods} from '@octokit/plugin-rest-endpoint-methods/dist-types/generated/method-types';
-import {ActionsListWorkflowRunsResponseData} from '@octokit/types';
+import {ActionsListWorkflowRunsResponseData, ActionsGetWorkflowRunResponseData} from '@octokit/types';
 import {getTargetBranch, isNotExcludeRun} from './misc';
 
-export const getWorkflowId = async(octokit: Octokit, context: Context): Promise<number> | never => {
-  const run = await octokit.actions.getWorkflowRun({
+export const getWorkflowRun = async(octokit: Octokit, context: Context): Promise<ActionsGetWorkflowRunResponseData> => {
+  return (await octokit.actions.getWorkflowRun({
     owner: context.repo.owner,
     repo: context.repo.repo,
     'run_id': Number(process.env.GITHUB_RUN_ID),
-  });
+  })).data;
+};
 
-  const matches = run.data.workflow_url.match(/\d+$/);
+export const getWorkflowId = (run: ActionsGetWorkflowRunResponseData): number | never => {
+  const matches = run.workflow_url.match(/\d+$/);
   if (!matches) {
     throw new Error('Invalid workflow run');
   }
 
   return Number(matches[0]);
 };
+
+export const getWorkflowRunCreatedAt = (run: ActionsGetWorkflowRunResponseData): string => run.created_at;
 
 export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit: Octokit, context: Context): Promise<ActionsListWorkflowRunsResponseData['workflow_runs']> => {
   const options: {
