@@ -78,8 +78,8 @@ describe('execute', () => {
       }),
       '::endgroup::',
       '> workflow id: 30433642',
-      'target event: \x1b[32;40;0mpush\x1b[0m',
-      'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
+      'target event: \x1b[32;40mpush\x1b[0m',
+      'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
       getLogStdout([
         {
@@ -121,7 +121,7 @@ describe('execute', () => {
       ]),
       '::endgroup::',
       '',
-      '> \x1b[33;40;0mnewer job exists\x1b[0m',
+      '> \x1b[33;40mnewer job exists\x1b[0m',
       '::set-output name=ids::',
     ]);
   });
@@ -160,8 +160,8 @@ describe('execute', () => {
       }),
       '::endgroup::',
       '> workflow id: 30433642',
-      'target event: \x1b[32;40;0mpull_request\x1b[0m',
-      'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
+      'target event: \x1b[32;40mpull_request\x1b[0m',
+      'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
       getLogStdout([
         {
@@ -203,7 +203,7 @@ describe('execute', () => {
       ]),
       '::endgroup::',
       '',
-      '> \x1b[33;40;0mnewer job exists\x1b[0m',
+      '> \x1b[33;40mnewer job exists\x1b[0m',
       '::set-output name=ids::',
     ]);
   });
@@ -247,8 +247,8 @@ describe('execute', () => {
       }),
       '::endgroup::',
       '> workflow id: 30433645',
-      'target event: \x1b[32;40;0mpull_request\x1b[0m',
-      'target branch: \x1b[32;40;0mrelease/v1.2.3\x1b[0m',
+      'target event: \x1b[32;40mpull_request\x1b[0m',
+      'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
       getLogStdout([
         {
