@@ -29,7 +29,7 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.endProcess();
 
   logger.log();
-  const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(run.created_at)}));
+  const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(getWorkflowRunCreatedAt(run))}));
   const createdAt             = Date.parse(getWorkflowRunCreatedAt(run));
   const runNumber             = getWorkflowRunNumber(run);
 
