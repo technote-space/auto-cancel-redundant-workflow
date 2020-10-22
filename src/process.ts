@@ -3,7 +3,7 @@ import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {setOutput} from '@actions/core';
 import {getRunId, isExcludeContext, getFilteredRun} from './utils/misc';
-import {cancelWorkflowRun, getWorkflowId, getWorkflowRun, getWorkflowRunCreatedAt, getWorkflowRuns} from './utils/workflow';
+import {cancelWorkflowRun, getWorkflowId, getWorkflowRun, getWorkflowRunCreatedAt, getWorkflowRunNumber, getWorkflowRuns} from './utils/workflow';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   if (isExcludeContext(context)) {
@@ -29,11 +29,11 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.endProcess();
 
   logger.log();
-  const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(run.created_at)}));
+  const runsWithCreatedAtTime = runs.filter(run => run.id !== runId).map(run => ({...run, createdAt: Date.parse(getWorkflowRunCreatedAt(run))}));
   const createdAt             = Date.parse(getWorkflowRunCreatedAt(run));
-  const runNumber             = run.run_number;
+  const runNumber             = getWorkflowRunNumber(run);
 
-  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt || (run.createdAt === createdAt && run.run_number > runNumber))) {
+  if (runsWithCreatedAtTime.find(run => run.createdAt > createdAt || (run.createdAt === createdAt && getWorkflowRunNumber(run) > runNumber))) {
     logger.info(logger.c('newer job exists', {color: 'yellow'}));
     setOutput('ids', '');
     return;
