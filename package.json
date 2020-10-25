@@ -1,6 +1,6 @@
 {
   "name": "@technote-space/auto-cancel-redundant-job",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "GitHub Actions to automatically cancel redundant jobs.",
   "keywords": [
     "github",
