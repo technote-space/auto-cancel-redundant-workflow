@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: technote-space/auto-cancel-redundant-job@gh-actions
+      - uses: technote-space/auto-cancel-redundant-workflow@gh-actions
       - name: Sync workflows
         uses: technote-space/create-pr-action@v2
         with:
