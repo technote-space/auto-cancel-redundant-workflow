@@ -1,7 +1,7 @@
 {
   "name": "@technote-space/auto-cancel-redundant-workflow",
   "version": "1.6.3",
-  "description": "GitHub Actions to automatically cancel redundant jobs.",
+  "description": "GitHub Actions to automatically cancel redundant workflow.",
   "keywords": [
     "github",
     "github actions"

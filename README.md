@@ -7,7 +7,7 @@
 
 *Read this in other languages: [English](README.md), [日本語](README.ja.md).*
 
-GitHub Actions to automatically cancel redundant workflows.
+GitHub Actions to automatically cancel redundant workflow.
 
 ## Table of Contents
 
