@@ -1,18 +1,18 @@
 {
-  "name": "@technote-space/auto-cancel-redundant-job",
+  "name": "@technote-space/auto-cancel-redundant-workflow",
   "version": "1.6.3",
   "description": "GitHub Actions to automatically cancel redundant jobs.",
   "keywords": [
     "github",
     "github actions"
   ],
-  "homepage": "https://github.com/technote-space/auto-cancel-redundant-job",
+  "homepage": "https://github.com/technote-space/auto-cancel-redundant-workflow",
   "bugs": {
-    "url": "https://github.com/technote-space/auto-cancel-redundant-job/issues"
+    "url": "https://github.com/technote-space/auto-cancel-redundant-workflow/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/technote-space/auto-cancel-redundant-job.git"
+    "url": "https://github.com/technote-space/auto-cancel-redundant-workflow.git"
   },
   "license": "MIT",
   "author": {

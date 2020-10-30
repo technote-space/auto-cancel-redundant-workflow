@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: technote-space/auto-cancel-redundant-job@gh-actions
+      - uses: technote-space/auto-cancel-redundant-workflow@gh-actions
         with:
           EXCLUDE_MERGED: 'true'
       - name: Broken Link Check
