@@ -1,4 +1,4 @@
-# Auto Cancel Redundant Job
+# Auto Cancel Redundant Workflow
 
 [![CI Status](https://github.com/technote-space/auto-cancel-redundant-workflow/workflows/CI/badge.svg)](https://github.com/technote-space/auto-cancel-redundant-workflow/actions)
 [![codecov](https://codecov.io/gh/technote-space/auto-cancel-redundant-workflow/branch/master/graph/badge.svg)](https://codecov.io/gh/technote-space/auto-cancel-redundant-workflow)
@@ -7,7 +7,7 @@
 
 *Read this in other languages: [English](README.md), [日本語](README.ja.md).*
 
-GitHub Actions to automatically cancel redundant jobs.
+GitHub Actions to automatically cancel redundant workflows.
 
 ## Table of Contents
 

@@ -1,6 +1,6 @@
-name: Auto Cancel Redundant Job
+name: Auto Cancel Redundant Workflow
 
-description: GitHub Actions to automatically cancel redundant jobs.
+description: GitHub Actions to automatically cancel redundant workflows.
 
 author: technote-space
 
