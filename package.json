@@ -36,6 +36,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
+    "@octokit/openapi-types": "^2.0.0",
     "@octokit/plugin-paginate-rest": "^2.6.2",
     "@octokit/plugin-rest-endpoint-methods": "^4.4.1",
     "@octokit/types": "^6.1.1",
