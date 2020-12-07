@@ -2,8 +2,11 @@ import {getInput} from '@actions/core';
 import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {ContextHelper, Utils} from '@technote-space/github-action-helper';
-import {ActionsListWorkflowRunsResponseData, ActionsGetWorkflowRunResponseData} from '@octokit/types';
+import {components} from '@octokit/openapi-types';
 import {SHOW_PROPERTIES} from '../constant';
+
+type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
+type ActionsGetWorkflowRunResponseData = components['schemas']['workflow-run'];
 
 const getMergeMessagePrefix   = (): RegExp => Utils.getPrefixRegExp(getInput('MERGE_MESSAGE_PREFIX'));
 const isExcludeMerged         = (): boolean => Utils.getBoolValue(getInput('EXCLUDE_MERGED'));
@@ -13,7 +16,7 @@ export const isExcludeContext = (context: Context): boolean =>
     (isExcludeTagPush() && Utils.isTagRef(context)) ||
     (isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
   );
-export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData['workflow_runs'][number]): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
+export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
 
 export const getRunId = (): number => Number(process.env.GITHUB_RUN_ID);
 

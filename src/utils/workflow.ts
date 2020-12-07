@@ -1,10 +1,14 @@
 import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-log-helper';
+import {Utils} from '@technote-space/github-action-helper';
 import {PaginateInterface} from '@octokit/plugin-paginate-rest';
 import {RestEndpointMethods} from '@octokit/plugin-rest-endpoint-methods/dist-types/generated/method-types';
-import {ActionsListWorkflowRunsResponseData, ActionsGetWorkflowRunResponseData} from '@octokit/types';
+import {components} from '@octokit/openapi-types';
 import {getTargetBranch, isNotExcludeRun} from './misc';
+
+type ActionsGetWorkflowRunResponseData = components['schemas']['workflow-run'];
+type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
 
 export const getWorkflowRun = async(octokit: Octokit, context: Context): Promise<ActionsGetWorkflowRunResponseData> => {
   return (await octokit.actions.getWorkflowRun({
@@ -23,11 +27,11 @@ export const getWorkflowId = (run: ActionsGetWorkflowRunResponseData): number | 
   return Number(matches[0]);
 };
 
-export const getWorkflowRunCreatedAt = (run: ActionsGetWorkflowRunResponseData): string => run.created_at;
+export const getWorkflowRunCreatedAt = (run: ActionsGetWorkflowRunResponseData): string => Utils.ensureNotNull(run.created_at);
 
 export const getWorkflowRunNumber = (run: ActionsGetWorkflowRunResponseData): number => run.run_number;
 
-export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit: Octokit, context: Context): Promise<ActionsListWorkflowRunsResponseData['workflow_runs']> => {
+export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit: Octokit, context: Context): Promise<Array<ActionsListWorkflowRunsResponseData>> => {
   const options: {
     owner: string;
     repo: string;
@@ -57,7 +61,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options,
-  )).map(run => run as ActionsListWorkflowRunsResponseData['workflow_runs'][number]).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
+  )).map(run => run as ActionsListWorkflowRunsResponseData).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
