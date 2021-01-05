@@ -18,7 +18,7 @@ export const isExcludeContext = (context: Context): boolean =>
   );
 export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
 
-export const getRunId = (): number => Number(process.env.GITHUB_RUN_ID);
+export const getTargetRunId = (context: Context): number => /^\d+$/.test(getInput('TARGET_RUN_ID')) ? Number(getInput('TARGET_RUN_ID')) : context.runId;
 
 export const getTargetBranch = async(octokit: Octokit, context: Context): Promise<string | undefined> => {
   if (context.payload.pull_request) {

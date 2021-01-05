@@ -10,11 +10,11 @@ import {getTargetBranch, isNotExcludeRun} from './misc';
 type ActionsGetWorkflowRunResponseData = components['schemas']['workflow-run'];
 type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
 
-export const getWorkflowRun = async(octokit: Octokit, context: Context): Promise<ActionsGetWorkflowRunResponseData> => {
+export const getWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<ActionsGetWorkflowRunResponseData> => {
   return (await octokit.actions.getWorkflowRun({
     owner: context.repo.owner,
     repo: context.repo.repo,
-    'run_id': Number(process.env.GITHUB_RUN_ID),
+    'run_id': runId,
   })).data;
 };
 

@@ -2,8 +2,8 @@ import {Context} from '@actions/github/lib/context';
 import {Octokit} from '@technote-space/github-action-helper/dist/types';
 import {Logger} from '@technote-space/github-action-log-helper';
 import {setOutput} from '@actions/core';
-import {getRunId, isExcludeContext, getFilteredRun} from './utils/misc';
 import {cancelWorkflowRun, getWorkflowId, getWorkflowRun, getWorkflowRunCreatedAt, getWorkflowRunNumber, getWorkflowRuns} from './utils/workflow';
+import {getTargetRunId, isExcludeContext, getFilteredRun} from './utils/misc';
 
 export const execute = async(logger: Logger, octokit: Octokit, context: Context): Promise<void> => {
   if (isExcludeContext(context)) {
@@ -12,10 +12,10 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
     return;
   }
 
-  const runId = getRunId();
+  const runId = getTargetRunId(context);
   logger.info('run id: %d', runId);
 
-  const run = await getWorkflowRun(octokit, context);
+  const run = await getWorkflowRun(runId, octokit, context);
   logger.startProcess('run:');
   console.log(getFilteredRun(run));
   logger.endProcess();
