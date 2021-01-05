@@ -9,6 +9,10 @@ inputs:
     description: Secret GitHub API token to use for making API requests.
     default: ${{ github.token }}
     required: true
+  TARGET_RUN_ID:
+    description: Target run id
+    default: ${{ github.run_id }}
+    required: true
   EXCLUDE_MERGED:
     description: Whether to exclude merge push.
     required: false
@@ -21,6 +25,13 @@ inputs:
     description: Whether to exclude tag push.
     required: false
     default: 'true'
+  CONSIDER_RE_RUN:
+    description: Whether to consider re-run. (Just a simple check of updated_at)
+    required: false
+    default: 'false'
+  INTERVAL_MS:
+    description: Interval milliseconds
+    required: false
 
 branding:
   icon: 'x-circle'

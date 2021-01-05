@@ -6,4 +6,5 @@ export const SHOW_PROPERTIES = [
   'event',
   'status',
   'created_at',
+  'updated_at',
 ];
