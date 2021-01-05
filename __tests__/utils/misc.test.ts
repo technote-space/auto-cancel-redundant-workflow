@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
 import {resolve} from 'path';
-import {testEnv, getOctokit, generateContext} from '@technote-space/github-action-test-helper';
-import {isExcludeContext, getRunId, getTargetBranch} from '../../src/utils/misc';
+import {testEnv, generateContext} from '@technote-space/github-action-test-helper';
+import {isExcludeContext, isConsiderReRun, getIntervalMs, getTargetRunId, getTargetBranch} from '../../src/utils/misc';
 
 const rootDir = resolve(__dirname, '../..');
 
@@ -43,13 +43,72 @@ describe('isExcludeContext', () => {
   });
 });
 
-describe('getRunId', () => {
+describe('isConsiderReRun', () => {
   testEnv(rootDir);
 
-  it('get run id', () => {
-    process.env.GITHUB_RUN_ID = '123';
+  it('should return false 1', () => {
+    expect(isConsiderReRun()).toBe(false);
+  });
 
-    expect(getRunId()).toBe(123);
+  it('should return false 2', () => {
+    process.env.INPUT_CONSIDER_RE_RUN = 'false';
+
+    expect(isConsiderReRun()).toBe(false);
+  });
+
+  it('should return false 2', () => {
+    process.env.INPUT_CONSIDER_RE_RUN = '0';
+
+    expect(isConsiderReRun()).toBe(false);
+  });
+
+  it('should return true 1', () => {
+    process.env.INPUT_CONSIDER_RE_RUN = 'true';
+
+    expect(isConsiderReRun()).toBe(true);
+  });
+
+  it('should return true 2', () => {
+    process.env.INPUT_CONSIDER_RE_RUN = '1';
+
+    expect(isConsiderReRun()).toBe(true);
+  });
+});
+
+describe('getIntervalMs', () => {
+  testEnv(rootDir);
+
+  it('should return undefined 1', () => {
+    expect(getIntervalMs()).toBeUndefined();
+  });
+
+  it('should return undefined 2', () => {
+    process.env.INPUT_INTERVAL_MS = 'abc';
+
+    expect(getIntervalMs()).toBeUndefined();
+  });
+
+  it('should return number', () => {
+    process.env.INPUT_INTERVAL_MS = '123';
+
+    expect(getIntervalMs()).toBe(123);
+  });
+});
+
+describe('getTargetRunId', () => {
+  testEnv(rootDir);
+
+  it('should get default target run id', () => {
+    expect(getTargetRunId(generateContext({owner: 'hello', repo: 'world'}, {
+      runId: 123,
+    }))).toBe(123);
+  });
+
+  it('should get target run id', () => {
+    process.env.INPUT_TARGET_RUN_ID = '456';
+    expect(getTargetRunId(generateContext({owner: 'hello', repo: 'world'}, {
+      runId: 123,
+    }))).toBe(456);
   });
 });
 
@@ -57,7 +116,7 @@ describe('getTargetBranch', () => {
   testEnv(rootDir);
 
   it('should get pr head ref', async() => {
-    expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world'}, {
+    expect(await getTargetBranch(generateContext({owner: 'hello', repo: 'world'}, {
       payload: {
         'pull_request': {
           head: {
@@ -69,10 +128,10 @@ describe('getTargetBranch', () => {
   });
 
   it('should get branch', async() => {
-    expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world', ref: 'refs/heads/master'}))).toBe('master');
+    expect(await getTargetBranch(generateContext({owner: 'hello', repo: 'world', ref: 'refs/heads/master'}))).toBe('master');
   });
 
   it('should return undefined', async() => {
-    expect(await getTargetBranch(getOctokit(), generateContext({owner: 'hello', repo: 'world', ref: 'refs/tags/v1.2.3'}))).toBeUndefined();
+    expect(await getTargetBranch(generateContext({owner: 'hello', repo: 'world', ref: 'refs/tags/v1.2.3'}))).toBeUndefined();
   });
 });
