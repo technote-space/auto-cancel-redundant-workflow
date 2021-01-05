@@ -75,6 +75,7 @@ describe('execute', () => {
         'event': 'push',
         'status': 'queued',
         'created_at': '2020-01-22T19:33:08Z',
+        'updated_at': '2020-01-22T19:33:08Z',
       }),
       '::endgroup::',
       '> workflow id: 30433642',
@@ -90,6 +91,7 @@ describe('execute', () => {
           'event': 'push',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
         {
           'id': 30433647,
@@ -99,6 +101,7 @@ describe('execute', () => {
           'event': 'push',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
         {
           'id': 30433648,
@@ -108,6 +111,7 @@ describe('execute', () => {
           'event': 'push',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
         {
           'id': 30433649,
@@ -117,6 +121,7 @@ describe('execute', () => {
           'event': 'push',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
       ]),
       '::endgroup::',
@@ -157,6 +162,7 @@ describe('execute', () => {
         'event': 'push',
         'status': 'queued',
         'created_at': '2020-01-22T19:33:08Z',
+        'updated_at': '2020-01-22T19:33:08Z',
       }),
       '::endgroup::',
       '> workflow id: 30433642',
@@ -172,6 +178,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
         {
           'id': 30433643,
@@ -181,6 +188,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-23T19:33:08Z',
+          'updated_at': '2020-01-23T19:33:08Z',
         },
         {
           'id': 30433644,
@@ -190,6 +198,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-24T19:33:08Z',
+          'updated_at': '2020-01-24T19:33:08Z',
         },
         {
           'id': 30433645,
@@ -199,6 +208,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-25T19:33:08Z',
+          'updated_at': '2020-01-25T19:33:08Z',
         },
       ]),
       '::endgroup::',
@@ -244,6 +254,7 @@ describe('execute', () => {
         'event': 'push',
         'status': 'queued',
         'created_at': '2020-01-24T19:33:08Z',
+        'updated_at': '2020-01-24T19:33:08Z',
       }),
       '::endgroup::',
       '> workflow id: 30433645',
@@ -259,6 +270,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-22T19:33:08Z',
+          'updated_at': '2020-01-22T19:33:08Z',
         },
         {
           'id': 30433643,
@@ -268,6 +280,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-23T19:33:08Z',
+          'updated_at': '2020-01-23T19:33:08Z',
         },
         {
           'id': 30433645,
@@ -277,6 +290,7 @@ describe('execute', () => {
           'event': 'pull_request',
           'status': 'queued',
           'created_at': '2020-01-25T19:33:08Z',
+          'updated_at': '2020-01-25T19:33:08Z',
         },
       ]),
       '::endgroup::',
