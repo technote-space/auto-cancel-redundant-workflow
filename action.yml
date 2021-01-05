@@ -26,7 +26,7 @@ inputs:
     required: false
     default: 'true'
   CONSIDER_RE_RUN:
-    description: Whether to consider re-run.
+    description: Whether to consider re-run. (Just a simple check of updated_at)
     required: false
     default: 'false'
   INTERVAL_MS:
