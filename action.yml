@@ -25,6 +25,13 @@ inputs:
     description: Whether to exclude tag push.
     required: false
     default: 'true'
+  CONSIDER_RE_RUN:
+    description: Whether to consider re-run. (Just a simple check of updated_at)
+    required: false
+    default: 'false'
+  INTERVAL_MS:
+    description: Interval milliseconds
+    required: false
 
 branding:
   icon: 'x-circle'
