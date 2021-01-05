@@ -19,7 +19,7 @@ GitHub Actions to automatically cancel redundant workflow.
 - [Usage](#usage)
 - [Screenshots](#screenshots)
   - [Cancelling jobs](#cancelling-jobs)
-  - [Cancelled job](#cancelled-job)
+  - [Cancelled workflow](#cancelled-workflow)
   - [Result](#result)
 - [Outputs](#outputs)
 - [Author](#author)
