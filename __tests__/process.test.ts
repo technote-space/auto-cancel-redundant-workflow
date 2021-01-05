@@ -95,11 +95,11 @@ describe('execute', () => {
 
   it('should cancel jobs', async() => {
     // workflow-run.list
-    // 30433642 run_number=562, updated_at=2020-02-22T19:33:08Z (re-run)          => expected to be canceled
-    // 30433643 run_number=563, updated_at=2020-01-23T19:33:08Z (merge commit)    => expected to be canceled
-    // 30433644 run_number=564, updated_at=2020-01-24T19:33:08Z (target run)      => expected to be canceled
-    // 30433645 run_number=565, updated_at=2020-01-25T19:33:08Z                   => expected not to be canceled
-    // 30433646~30433649                                        (different event) => expected not to be canceled
+    // 30433642 run_number=562, updated_at=2020-02-22T19:33:08Z (re-run)          => expected that this will be cancelled
+    // 30433643 run_number=563, updated_at=2020-01-23T19:33:08Z (merge commit)    => expected that this will be cancelled
+    // 30433644 run_number=564, updated_at=2020-01-24T19:33:08Z (target run)      => expected that this will be cancelled
+    // 30433645 run_number=565, updated_at=2020-01-25T19:33:08Z                   => expected that this will not be cancelled
+    // 30433646~30433649                                        (different event) => expected that this will not be cancelled
 
     const mockStdout = spyOnStdout();
     nock('https://api.github.com')
@@ -199,11 +199,11 @@ describe('execute', () => {
 
   it('should cancel jobs (consider re-run, set interval)', async() => {
     // workflow-run.list
-    // 30433642 run_number=562, updated_at=2020-02-22T19:33:08Z (re-run)          => expected not to be canceled
-    // 30433643 run_number=563, updated_at=2020-01-23T19:33:08Z (merge commit)    => expected not to be canceled
-    // 30433644 run_number=564, updated_at=2020-01-24T19:33:08Z (target run)      => expected to be canceled
-    // 30433645 run_number=565, updated_at=2020-01-25T19:33:08Z                   => expected not to be canceled
-    // 30433646~30433649                                        (different event) => expected not to be canceled
+    // 30433642 run_number=562, updated_at=2020-02-22T19:33:08Z (re-run)          => expected that this will not be cancelled
+    // 30433643 run_number=563, updated_at=2020-01-23T19:33:08Z (merge commit)    => expected that this will not be cancelled
+    // 30433644 run_number=564, updated_at=2020-01-24T19:33:08Z (target run)      => expected that this will be cancelled
+    // 30433645 run_number=565, updated_at=2020-01-25T19:33:08Z                   => expected that this will not be cancelled
+    // 30433646~30433649                                        (different event) => expected that this will not be cancelled
 
     process.env.INPUT_EXCLUDE_MERGED  = 'true';
     process.env.INPUT_CONSIDER_RE_RUN = 'true';
