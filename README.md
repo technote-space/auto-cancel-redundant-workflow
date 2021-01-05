@@ -67,7 +67,7 @@ e.g.
 ### Cancelling jobs
 ![cancelling](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-workflow/images/cancelling.png)
 
-### Cancelled job
+### Cancelled workflow
 ![cancelled](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-workflow/images/cancelled.png)
 
 ### Result
@@ -76,7 +76,7 @@ e.g.
 ## Outputs
 | name | description | e.g. |
 |:---:|:---|:---:|
-|ids|The results of cancelled run ids.|`1234,2345`|
+|ids|Run IDs of the cancelled workflow.|`1234,2345`|
 
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  

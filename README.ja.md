@@ -67,7 +67,7 @@ e.g.
 ### キャンセル中
 ![cancelling](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-workflow/images/cancelling.png)
 
-### キャンセルされたジョブ
+### キャンセルされたワークフロー
 ![cancelled](https://raw.githubusercontent.com/technote-space/auto-cancel-redundant-workflow/images/cancelled.png)
 
 ### 結果
@@ -76,7 +76,7 @@ e.g.
 ## Outputs
 | name | description | e.g. |
 |:---:|:---|:---:|
-|ids|キャンセルされた Run ID|`1234,2345`|
+|ids|キャンセルされたワークフローの Run ID|`1234,2345`|
 
 ## Author
 [GitHub (Technote)](https://github.com/technote-space)  
