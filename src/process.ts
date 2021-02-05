@@ -25,6 +25,9 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.info('workflow id: %d', workflowId);
 
   const runs = await getWorkflowRuns(workflowId, logger, octokit, context);
+  if (!runs.some(_run => _run.run_number === run.run_number)) {
+    runs.push(run);
+  }
   logger.startProcess('workflow runs:');
   console.log(runs.map(run => getFilteredRun(run)));
   logger.endProcess();
