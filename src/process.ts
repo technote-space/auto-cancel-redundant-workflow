@@ -25,6 +25,9 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   logger.info('workflow id: %d', workflowId);
 
   const runs = await getWorkflowRuns(workflowId, logger, octokit, context);
+  if (!runs.some(_run => _run.run_number === run.run_number)) {
+    runs.push(run);
+  }
   logger.startProcess('workflow runs:');
   console.log(runs.map(run => getFilteredRun(run)));
   logger.endProcess();
@@ -45,7 +48,11 @@ export const execute = async(logger: Logger, octokit: Octokit, context: Context)
   await targetRuns.reduce(async(prev, run) => {
     await prev;
     logger.log('cancel: %d', run.id);
-    await cancelWorkflowRun(run.id, octokit, context);
+    try {
+      await cancelWorkflowRun(run.id, octokit, context);
+    } catch (error) {
+      logger.error(error.message);
+    }
     if (interval) {
       await Utils.sleep(interval);
     }

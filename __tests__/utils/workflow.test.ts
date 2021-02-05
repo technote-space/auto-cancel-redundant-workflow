@@ -24,7 +24,7 @@ describe('getWorkflowRun, getWorkflowId, getWorkflowRunUpdatedAt', () => {
 
     const run = await getWorkflowRun(123, getOctokit(), generateContext({owner: 'hello', repo: 'world'}));
     expect(fn).toBeCalledTimes(1);
-    expect(getWorkflowId(run)).toBe(30433642);
+    expect(getWorkflowId(run)).toBe(111562);
     expect(getWorkflowRunUpdatedAt(run)).toBe(Date.parse('2020-02-22T19:33:08Z'));
     expect(getWorkflowRunNumber(run)).toBe(562);
   });

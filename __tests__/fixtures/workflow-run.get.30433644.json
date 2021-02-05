@@ -19,7 +19,7 @@
   "artifacts_url": "https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433644/artifacts",
   "cancel_url": "https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433644/cancel",
   "rerun_url": "https://api.github.com/repos/octo-org/octo-repo/actions/runs/30433644/rerun",
-  "workflow_url": "https://api.github.com/repos/octo-org/octo-repo/actions/workflows/30433644",
+  "workflow_url": "https://api.github.com/repos/octo-org/octo-repo/actions/workflows/111564",
   "head_commit": {
     "id": "acb5820ced9479c074f688cc328bf03f341a511d",
     "tree_id": "d23f6eedb1e1b9610bbc754ddb5197bfe7271223",
