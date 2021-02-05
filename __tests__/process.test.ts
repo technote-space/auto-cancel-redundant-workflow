@@ -51,7 +51,7 @@ describe('execute', () => {
     nock('https://api.github.com')
       .get('/repos/hello/world/actions/runs/30433642')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get.30433642'))
-      .get('/repos/hello/world/actions/workflows/30433642/runs?status=in_progress&branch=release%2Fv1.2.3')
+      .get('/repos/hello/world/actions/workflows/111562/runs?status=in_progress&branch=release%2Fv1.2.3')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list.empty'));
 
     await execute(new Logger(), getOctokit(), generateContext({owner: 'hello', repo: 'world', event: 'push'}, {
@@ -79,7 +79,7 @@ describe('execute', () => {
         'updated_at': '2020-02-22T19:33:08Z',
       }),
       '::endgroup::',
-      '> workflow id: 30433642',
+      '> workflow id: 111562',
       'target event: \x1b[32;40mpush\x1b[0m',
       'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
@@ -105,7 +105,7 @@ describe('execute', () => {
     nock('https://api.github.com')
       .get('/repos/hello/world/actions/runs/30433644')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get.30433644'))
-      .get('/repos/hello/world/actions/workflows/30433644/runs?status=in_progress&branch=release%2Fv1.2.3')
+      .get('/repos/hello/world/actions/workflows/111564/runs?status=in_progress&branch=release%2Fv1.2.3')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'))
       .post('/repos/hello/world/actions/runs/30433642/cancel')
       .reply(202)
@@ -139,7 +139,7 @@ describe('execute', () => {
         'updated_at': '2020-01-24T19:33:08Z',
       }),
       '::endgroup::',
-      '> workflow id: 30433644',
+      '> workflow id: 111564',
       'target event: \x1b[32;40mpull_request\x1b[0m',
       'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
@@ -216,7 +216,7 @@ describe('execute', () => {
     nock('https://api.github.com')
       .get('/repos/hello/world/actions/runs/30433644')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.get.30433644'))
-      .get('/repos/hello/world/actions/workflows/30433644/runs?status=in_progress&branch=release%2Fv1.2.3')
+      .get('/repos/hello/world/actions/workflows/111564/runs?status=in_progress&branch=release%2Fv1.2.3')
       .reply(200, () => getApiFixture(fixturesDir, 'workflow-run.list'))
       .post('/repos/hello/world/actions/runs/30433644/cancel')
       .reply(202);
@@ -246,7 +246,7 @@ describe('execute', () => {
         'updated_at': '2020-01-24T19:33:08Z',
       }),
       '::endgroup::',
-      '> workflow id: 30433644',
+      '> workflow id: 111564',
       'target event: \x1b[32;40mpull_request\x1b[0m',
       'target branch: \x1b[32;40mrelease/v1.2.3\x1b[0m',
       '::group::workflow runs:',
