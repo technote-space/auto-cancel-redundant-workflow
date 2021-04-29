@@ -25,7 +25,7 @@ export const isExcludeContext = (context: Context): boolean =>
     (isExcludeTagPush() && Utils.isTagRef(context)) ||
     (isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
   );
-export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
+export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit?.message ?? '');
 export const getTargetRunId   = (context: Context): number => parseNumber(getInput('TARGET_RUN_ID'), context.runId);
 export const getTargetBranch  = async(context: Context): Promise<string | undefined> => {
   if (context.payload.pull_request) {
