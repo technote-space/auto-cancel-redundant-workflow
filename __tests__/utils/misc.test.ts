@@ -1,8 +1,10 @@
 /* eslint-disable no-magic-numbers */
+import type {components} from '@octokit/openapi-types';
 import {resolve} from 'path';
 import {testEnv, generateContext} from '@technote-space/github-action-test-helper';
-import {isExcludeContext, isConsiderReRun, getIntervalMs, getTargetRunId, getTargetBranch} from '../../src/utils/misc';
+import {isExcludeContext, isNotExcludeRun, isConsiderReRun, getIntervalMs, getTargetRunId, getTargetBranch} from '../../src/utils/misc';
 
+type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
 const rootDir = resolve(__dirname, '../..');
 
 describe('isExcludeContext', () => {
@@ -40,6 +42,29 @@ describe('isExcludeContext', () => {
         },
       },
     }))).toBe(false);
+  });
+});
+
+describe('isNotExcludeRun', () => {
+  testEnv(rootDir);
+
+  it('should return true 1', () => {
+    process.env.INPUT_EXCLUDE_MERGED = 'false';
+    expect(isNotExcludeRun({} as ActionsListWorkflowRunsResponseData)).toBe(true);
+  });
+
+  it('should return true 2', () => {
+    process.env.INPUT_EXCLUDE_MERGED       = 'true';
+    process.env.INPUT_MERGE_MESSAGE_PREFIX = 'test';
+    expect(isNotExcludeRun({} as ActionsListWorkflowRunsResponseData)).toBe(true);
+    expect(isNotExcludeRun({'head_commit': {message: ''}} as ActionsListWorkflowRunsResponseData)).toBe(true);
+    expect(isNotExcludeRun({'head_commit': {message: 'aaa'}} as ActionsListWorkflowRunsResponseData)).toBe(true);
+  });
+
+  it('should return false', () => {
+    process.env.INPUT_EXCLUDE_MERGED       = 'true';
+    process.env.INPUT_MERGE_MESSAGE_PREFIX = 'test';
+    expect(isNotExcludeRun({'head_commit': {message: 'test aaa'}} as ActionsListWorkflowRunsResponseData)).toBe(false);
   });
 });
 
