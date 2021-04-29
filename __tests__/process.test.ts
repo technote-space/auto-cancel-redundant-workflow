@@ -42,6 +42,7 @@ describe('execute', () => {
 
     stdoutCalledWith(mockStdout, [
       '> This is not target context.',
+      '',
       '::set-output name=ids::',
     ]);
   });
@@ -99,6 +100,7 @@ describe('execute', () => {
       '',
       '::group::Cancelling...',
       '> total: 0',
+      '',
       '::set-output name=ids::',
       '::endgroup::',
     ]);
@@ -203,6 +205,7 @@ describe('execute', () => {
       'cancel: 30433643',
       'cancel: 30433644',
       '> total: 3',
+      '',
       '::set-output name=ids::30433642,30433643,30433644',
       '::endgroup::',
     ]);
@@ -298,6 +301,7 @@ describe('execute', () => {
       '::group::Cancelling...',
       'cancel: 30433644',
       '> total: 1',
+      '',
       '::set-output name=ids::30433644',
       '::endgroup::',
     ]);
@@ -418,6 +422,7 @@ describe('execute', () => {
       'cancel: 30433644',
       'cancel: 30433645',
       '> total: 4',
+      '',
       '::set-output name=ids::30433642,30433643,30433644,30433645',
       '::endgroup::',
     ]);
@@ -530,6 +535,7 @@ describe('execute', () => {
       'cancel: 30433644',
       '::error::request to https://api.github.com/repos/hello/world/actions/runs/30433644/cancel failed, reason: Cannot cancel a workflow run that is completed.',
       '> total: 3',
+      '',
       '::set-output name=ids::30433642,30433643,30433644',
       '::endgroup::',
     ]);
