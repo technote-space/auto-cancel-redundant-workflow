@@ -1,7 +1,7 @@
+import type {components} from '@octokit/openapi-types';
+import type {Context} from '@actions/github/lib/context';
 import {getInput} from '@actions/core';
-import {Context} from '@actions/github/lib/context';
 import {ContextHelper, Utils} from '@technote-space/github-action-helper';
-import {components} from '@octokit/openapi-types';
 import {SHOW_PROPERTIES} from '../constant';
 
 type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
@@ -25,7 +25,7 @@ export const isExcludeContext = (context: Context): boolean =>
     (isExcludeTagPush() && Utils.isTagRef(context)) ||
     (isExcludeMerged() && getMergeMessagePrefix().test(context.payload.head_commit.message))
   );
-export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit.message);
+export const isNotExcludeRun  = (run: ActionsListWorkflowRunsResponseData): boolean => !isExcludeMerged() || !getMergeMessagePrefix().test(run.head_commit?.message ?? '');
 export const getTargetRunId   = (context: Context): number => parseNumber(getInput('TARGET_RUN_ID'), context.runId);
 export const getTargetBranch  = async(context: Context): Promise<string | undefined> => {
   if (context.payload.pull_request) {

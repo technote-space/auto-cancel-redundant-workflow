@@ -1,10 +1,10 @@
-import {Context} from '@actions/github/lib/context';
-import {Octokit} from '@technote-space/github-action-helper/dist/types';
-import {Logger} from '@technote-space/github-action-log-helper';
+import type {OctokitResponse} from '@octokit/types';
+import type {PaginateInterface} from '@octokit/plugin-paginate-rest';
+import type {Octokit} from '@technote-space/github-action-helper/dist/types';
+import type {Context} from '@actions/github/lib/context';
+import type {Logger} from '@technote-space/github-action-log-helper';
+import type {components} from '@octokit/openapi-types';
 import {Utils} from '@technote-space/github-action-helper';
-import {PaginateInterface} from '@octokit/plugin-paginate-rest';
-import {RestEndpointMethods} from '@octokit/plugin-rest-endpoint-methods/dist-types/generated/method-types';
-import {components} from '@octokit/openapi-types';
 import {getTargetBranch, isNotExcludeRun} from './misc';
 
 type ActionsGetWorkflowRunResponseData = components['schemas']['workflow-run'];
@@ -55,7 +55,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
   }
 
   return (await (octokit.paginate as PaginateInterface)(
-    (octokit as RestEndpointMethods).actions.listWorkflowRuns,
+    octokit.actions.listWorkflowRuns,
     // eslint-disable-next-line no-warning-comments
     // TODO: remove ts-ignore after fixed types (https://github.com/octokit/types.ts/issues/122)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,7 +64,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
   )).map(run => run as ActionsListWorkflowRunsResponseData).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
 };
 
-export const cancelWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<void> => (octokit as RestEndpointMethods).actions.cancelWorkflowRun({
+export const cancelWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<OctokitResponse<{ [key: string]: unknown; }>> => octokit.actions.cancelWorkflowRun({
   ...context.repo,
   'run_id': runId,
 });

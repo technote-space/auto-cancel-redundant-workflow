@@ -1,6 +1,6 @@
-import {Context} from '@actions/github/lib/context';
-import {Octokit} from '@technote-space/github-action-helper/dist/types';
-import {Logger} from '@technote-space/github-action-log-helper';
+import type {Context} from '@actions/github/lib/context';
+import type {Octokit} from '@technote-space/github-action-helper/dist/types';
+import type {Logger} from '@technote-space/github-action-log-helper';
 import {setOutput} from '@actions/core';
 import {Utils} from '@technote-space/github-action-helper';
 import {getTargetRunId, isExcludeContext, isConsiderReRun, getIntervalMs, getFilteredRun} from './utils/misc';
