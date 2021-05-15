@@ -1,5 +1,44 @@
 # Auto Cancel Redundant Workflow
 
+---
+
+**Please note:** This repository is currently unmaintained by a team of developers at GitHub. The
+repository is here and you can use it as an example, or in Actions. However please be aware that
+we are not going to be updating issues or pull requests on this repository.
+
+**注意:** このリポジトリはもうメンテナンスされません。  
+代わりに公式から提供されている [concurrency](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#concurrency) を使用してください。
+
+### 移行例
+
+```yaml
+on: push
+jobs:
+  test:
+    steps:
+      - uses: technote-space/auto-cancel-redundant-workflow@v1
+      - run: echo step1
+      - run: echo step2
+      # ...
+```
+
+↓
+
+```yaml
+on: push
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+#  cancel-in-progress: true
+jobs:
+  test:
+    steps:
+      - run: echo step1
+      - run: echo step2
+      # ...
+```
+
+---
+
 [![CI Status](https://github.com/technote-space/auto-cancel-redundant-workflow/workflows/CI/badge.svg)](https://github.com/technote-space/auto-cancel-redundant-workflow/actions)
 [![codecov](https://codecov.io/gh/technote-space/auto-cancel-redundant-workflow/branch/master/graph/badge.svg)](https://codecov.io/gh/technote-space/auto-cancel-redundant-workflow)
 [![CodeFactor](https://www.codefactor.io/repository/github/technote-space/auto-cancel-redundant-workflow/badge)](https://www.codefactor.io/repository/github/technote-space/auto-cancel-redundant-workflow)

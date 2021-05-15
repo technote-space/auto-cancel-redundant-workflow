@@ -1,5 +1,4 @@
 import type {OctokitResponse} from '@octokit/types';
-import type {PaginateInterface} from '@octokit/plugin-paginate-rest';
 import type {Octokit} from '@technote-space/github-action-helper/dist/types';
 import type {Context} from '@actions/github/lib/context';
 import type {Logger} from '@technote-space/github-action-log-helper';
@@ -11,7 +10,7 @@ type ActionsGetWorkflowRunResponseData = components['schemas']['workflow-run'];
 type ActionsListWorkflowRunsResponseData = components['schemas']['workflow-run'];
 
 export const getWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<ActionsGetWorkflowRunResponseData> => {
-  return (await octokit.actions.getWorkflowRun({
+  return (await octokit.rest.actions.getWorkflowRun({
     owner: context.repo.owner,
     repo: context.repo.repo,
     'run_id': runId,
@@ -54,8 +53,8 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
     options.branch = branch;
   }
 
-  return (await (octokit.paginate as PaginateInterface)(
-    octokit.actions.listWorkflowRuns,
+  return (await octokit.paginate(
+    octokit.rest.actions.listWorkflowRuns,
     // eslint-disable-next-line no-warning-comments
     // TODO: remove ts-ignore after fixed types (https://github.com/octokit/types.ts/issues/122)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -64,7 +63,7 @@ export const getWorkflowRuns = async(workflowId: number, logger: Logger, octokit
   )).map(run => run as ActionsListWorkflowRunsResponseData).filter(run => run.event === context.eventName).filter(isNotExcludeRun);
 };
 
-export const cancelWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<OctokitResponse<{ [key: string]: unknown; }>> => octokit.actions.cancelWorkflowRun({
+export const cancelWorkflowRun = async(runId: number, octokit: Octokit, context: Context): Promise<OctokitResponse<{ [key: string]: unknown; }>> => octokit.rest.actions.cancelWorkflowRun({
   ...context.repo,
   'run_id': runId,
 });
